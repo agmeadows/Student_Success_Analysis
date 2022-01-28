@@ -1,14 +1,13 @@
 Base Metrics:
 BASMID - Child identifier
 ALLGRADEEX - Current Grade Level
+SEGRADES - Students letter grade
 CENREG - Census region where child lives
-RSTATE - Respondent's state
-ZCTA - Respondent ZCTA (Zip Code Tabulation Area)
 
 Student Status:
 SESUSOUT - Out of school suspension 
-202 SESUSPIN - In school suspension 
-203 SEEXPEL - Expelled
+SESUSPIN - In school suspension 
+SEEXPEL - Expelled
 
 School and Class Type:
 EDCPUB - Type of school - Public 
@@ -22,7 +21,7 @@ EDCHSFL - Type of school - Homeschooled
 ONLNPR - Online, virtual or cyber enrollment - Prefers online/virtual
 HSINTSCH -  Online, virtual or cyber resources - Local public school or school district
 DISTASSI - District-assigned school N 2 1580 1581
-SCHRTSCHL - Charter school N 2 1582 1583
+SCHRTSCHL - Charter school
 SCHLMAGNET - Magnet school
 SPBSCH - Online, virtual, or cyber instruction - Public school instruction 
 SPRIVT - Online, virtual, or cyber instruction - Private school instruction 
