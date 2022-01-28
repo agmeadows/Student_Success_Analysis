@@ -1,0 +1,13 @@
+CSPEAKX,CSPEAKX_DESC,P1REL,P1REL_DESC,P1SEX,P1SEX_DESC,P1MRSTA,P1MRSTA_DESC,P2REL,P2REL_DESC,P2SEX,P2SEX_DESC,P2MRSTA,P2MRSTA_DESC,PAR1EMPL,PAR1EMPL_DESC,PAR1FTFY,PAR1FTFY_DESC,PAR2FTFY,PAR2FTFY_DESC,TTLHHINC,TTLHHINC_DESC,OWNRNTHB,OWNRNTHB_DESC
+1,Child is not able to speak,1,Biological parent,1,Male,1,Now married,1,Biological parent,1,Male,1,Now married,1,Working 35 hours or more per week,1,Full time and full year,1,Full time and full year,1,"$0 to $10,000",1,Owned or being bought
+2,English,2,Adoptive parent,2,Female,2,Widowed,2,Adoptive parent,2,Female,2,Widowed,2,Working less than 35 hours per week,2,Less than full time or less than full year,2,Less than full time or less than full year,2,"$10,001 to $20,000",2,Rented
+3,Spanish,3,Stepparent,,,3,Divorced,3,Stepparent,,,3,Divorced,3,Looking for work,3,Not employed during past year,3,Not employed during past year,3,"$20,001 to $30,000",3,Occupied by some other arrangement
+4,English and Spanish equally,4,Foster parent,,,4,Separated,4,Foster parent,,,4,Separated,4,Not in the labor force,,,,,4,"$30,001 to $40,000",,
+5,A language other than English or Spanish,5,Grandparent,,,5,Never married,5,Grandparent,,,5,Never married,,,,,,,5,"40,001 to $50,000",,
+6,English and another language equally,6,Other guardian,,,,,6,Other guardian,,,,,,,,,,,6,"$50,001 to $60,000",,
+,,,,,,,,,,,,,,,,,,,,7,"$60,001 to $75,000",,
+,,,,,,,,,,,,,,,,,,,,8,"$75,001 to $100,000",,
+,,,,,,,,,,,,,,,,,,,,9,"$100,001 to $150,000",,
+,,,,,,,,,,,,,,,,,,,,10,"$150,001 to $200,000",,
+,,,,,,,,,,,,,,,,,,,,11,"$200,001 to $250,000",,
+,,,,,,,,,,,,,,,,,,,,12,"$250,001 or more",,

@@ -1,0 +1,15 @@
+SEGRADES,SEGRADES_DESC,ALLGRADEX,ALLGRADEX_DESC
+1,Mostly A's,2,Full-day kindergarten or equivalent
+2,Mostly B's,3,Partial-day kindergarten or equivalent
+3,Mostly C's,4,First grade or equivalent
+4,Mostly D's or lower,5,Second grade or equivalent
+5,School does not give these grades,6,Third grade or equivalent
+,,7,Fourth grade or equivalent
+,,8,Fifth grade or equivalent
+,,9,Sixth grade or equivalent
+,,10,Seventh grade or equivalent
+,,11,Eighth grade or equivalent
+,,12,Ninth grade or equivalent
+,,13,Tenth grade or equivalent
+,,14,Eleventh grade or equivalent
+,,15,Twelfth grade or equivalent
