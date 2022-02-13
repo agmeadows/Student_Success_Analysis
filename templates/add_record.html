@@ -21,7 +21,7 @@ Student Success Survey Questions
 	<div class="row pb-5">
 		<div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
 
-		<h1 class="pt-5 pb-2">Submit Answers</h1>
+		<h1 class="pt-5 pb-2">Student Success Survey Questions</h1>
 
 		{% if message %}
 
@@ -29,7 +29,7 @@ Student Success Survey Questions
 			<p class="lead"><strong>{{ message }}</strong></p>
 
 			<!-- links -->
-			<p><a href="{{ url_for('add_record') }}">Submit your answers.</a></p>
+			<p><a href="{{ url_for('add_record') }}">Submit additonal answers.</a></p>
 
 			<p><a href="{{ url_for('index') }}">Return to the main page.</a></p>
 
@@ -37,7 +37,7 @@ Student Success Survey Questions
 
 			<!-- the form is displayed when template opens via GET not POST -->
 
-			<p class="lead alert alert-primary">Submit your questions to our database.</p>
+			<p class="lead alert alert-primary">Submit your answers to our database.</p>
 
 			<p class="ml-4"><a href="{{ url_for('index') }}">Return to the main page.</a></p>
 
