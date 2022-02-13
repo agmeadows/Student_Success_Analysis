@@ -213,6 +213,12 @@ def stringdate():
 # +++++++++++++++++++++++
 # routes
 
+@app.route('/')
+def index():
+    # get a list of unique values in the style column
+    styles = Questions.query.with_entities(Questions.style).distinct()
+    return render_template('index.html', styles=styles)
+
 # add a new sock to the database
 @app.route('/add_record', methods=['GET', 'POST'])
 def add_record():
