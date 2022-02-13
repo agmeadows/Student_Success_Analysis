@@ -35,7 +35,7 @@ db = SQLAlchemy(app)
 # db.Model is required - don't change it
 # identify all columns by name and data type
 class Questions(db.Model):
-    __tablename__ = 'socks'
+    __tablename__ = 'Surveys'
     id = db.Column(db.Integer, primary_key=True)
     ALLGRADEX = db.Column(db.Integer)
     SEGRADES = db.Column(db.Integer)
