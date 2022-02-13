@@ -242,7 +242,7 @@ def add_record():
         db.session.commit()
         # create a message to send to the template
         message = f"Your answers have been submitted."
-        return render_template('add_record.html', message=message)
+        return render_template('add_record.html', message=message, id=id)
     else:
         # show validaton errors
         # see https://pythonprogramming.net/flash-flask-tutorial/
