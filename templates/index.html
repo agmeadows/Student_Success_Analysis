@@ -1,22 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Success Survey</title>
-</head>
-<body>
-    <div class="rendered-form">
-        <div class="">
-            <h1 access="false" id="control-9617495">Student Success Survey<br></h1></div>
-        <div class="formbuilder-number form-group field-ALLGRADEX">
-            <label for="ALLGRADEX" class="formbuilder-number-label">What is this child’s current grade, grade equivalent, or year of school?</label><br>
-            <input type="number" class="form-control" name="ALLGRADEX" access="false" value="1" min="1" max="12" id="ALLGRADEX">
-        </div>
-        <div class="formbuilder-button form-group field-submit">
-            <button type="button" class="btn-default btn" name="submit" access="false" style="default" id="submit">Submit</button>
-        </div>
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{ super() }}
+	<style>
+		body { background: #e8f1f9; }
+	</style>
+{% endblock %}
+
+{% block title %}
+Student Success Survey
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+
+      <h1 class="pt-5 pb-2">Welcome to the Student Success Survey</h1>
+
+      <p class="lead">This is the index page for an example Flask app using a SQL database containing an inventory of many colorful socks.</p>
+
+	  <!-- links -->
+	  <p>You can <a href="{{ url_for('add_record') }}">Submit your answers</a>.</p>
+	  <p>You can <a href="{{ url_for( 'select_record', letters='AF' ) }}">Update your previously submitted questions</a>.</p>
+
     </div>
-</body>
-</html>
+  </div>
+</div>
+
+{% endblock %}
