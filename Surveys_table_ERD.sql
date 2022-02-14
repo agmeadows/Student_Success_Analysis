@@ -5,9 +5,9 @@
 
 CREATE TABLE "Surveys" (
     "id" varchar   NOT NULL,
-	"updated" date NOT NULL,
+    "updated" date NOT NULL,
     "ALLGRADEX" int,
-	"SEGRADES" int,
+    "SEGRADES" int,
     "CENREG" int,
     "SCH_TYPE" int,
     "EDCPUB" int,
