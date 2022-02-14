@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import SubmitField, SelectField, RadioField, HiddenField, StringField, IntegerField, FloatField
 from wtforms.validators import InputRequired, Length, Regexp, NumberRange
 from datetime import datetime
@@ -28,6 +28,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # this variable, db, will be used for all SQLAlchemy commands
 db = SQLAlchemy(app)
+
+# setup recaptcha
+app.config['RECAPTCHA_USE_SSL'] = False
+app.config['RECAPTCHA_PUBLIC_KEY'] = '6LeJQngeAAAAAPb66gTSi69KL6JvhCJmfpyj6tIE'
+app.config['RECAPTCHA_PRIVATE_KEY'] = '6LeJQngeAAAAAIheQ_SdVALaVAfxQ9K_OVUoQJh7'
+app.config['RECAPTCHA_OPTIONS'] = {'theme': 'white'}
 
 # each table in the database needs a class to be created for it
 # db.Model is required - don't change it
@@ -188,6 +194,9 @@ class AddRecord(FlaskForm):
     ALLGRADEX = IntegerField('What is this child’s current grade, grade equivalent, or year of school?', [ InputRequired(),
         NumberRange(min=1, max=12, message="Invalid range")
         ])
+    SEGRADES = IntegerField('What is this child’s current grade, grade equivalent, or year of school?', [ InputRequired(),
+        NumberRange(min=1, max=12, message="Invalid range")
+        ])
     # FODINNERX = IntegerField('In the past week, how many days has your family eaten the evening meal together?', [ InputRequired(),
     #     NumberRange(min=0, max=7, message="Invalid range")
     #     ])
@@ -197,6 +206,7 @@ class AddRecord(FlaskForm):
     # FORDDAYX = IntegerField('About how many minutes on each of those times did you or someone in your family read to this child?', [ InputRequired(),
     #     NumberRange(min=0, max=999, message="Invalid range")
     #     ])
+    recaptcha = RecaptchaField()
     # updated - date - handled in the route function
     updated = HiddenField()
     submit = SubmitField('Add/Update Record')
@@ -232,11 +242,12 @@ def add_record():
         ALLGRADEX = request.form['ALLGRADEX']
         # FOREADTOX = request.form['FOREADTOX']
         # FORDDAYX = request.form['FORDDAYX']
+        RECAPTCHA = request.form['RECAPTCHA']
         # get today's date from function, above all the routes
         id = genID()
         updated = stringdate()
         # the data to be inserted into questionair model - the table
-        record = Questions(id, ALLGRADEX)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
+        record = Questions(id, ALLGRADEX, RECAPTCHA)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
