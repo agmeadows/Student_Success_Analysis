@@ -11,7 +11,7 @@ from uuid import uuid4
 app = Flask(__name__)
 
 # Flask-WTF requires an enryption key - the string can be anything
-app.config['SECRET_KEY'] = 'MLXH243GssUWwKdTWS7FDhdwYF56wPj8'
+app.config['SECRET_KEY'] = 'MLXH243Gh3JD281skdN17FDhdwYF56wPj8'
 
 # Flask-Bootstrap requires this line
 Bootstrap(app)
@@ -39,7 +39,7 @@ app.config['RECAPTCHA_OPTIONS'] = {'theme': 'white'}
 # db.Model is required - don't change it
 # identify all columns by name and data type
 class Questions(db.Model):
-    __tablename__ = 'NHES_19_PFI'
+    __tablename__ = 'Surveys'
     id = db.Column(db.Integer, primary_key=True)
     updated = db.Column(db.Date)
     ALLGRADEX = db.Column(db.Integer)
