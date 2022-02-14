@@ -204,7 +204,7 @@ class AddRecord(FlaskForm):
     #     NumberRange(min=0, max=999, message="Invalid range")
     #     ])
     # ReCaptcha validation
-    #recaptcha = RecaptchaField()
+    recaptcha = RecaptchaField('Please comfirm you are human')
     # updated - date - handled in the route function
     updated = HiddenField()
     submit = SubmitField('Submit Answers')
@@ -245,7 +245,6 @@ def add_record():
         CENREG = request.form['CENREG']
         # FOREADTOX = request.form['FOREADTOX']
         # FORDDAYX = request.form['FORDDAYX']
-        #RECAPTCHA = request.form['RECAPTCHA']
         # get today's date from function, above all the routes
         id = genID()
         updated = stringdate()
