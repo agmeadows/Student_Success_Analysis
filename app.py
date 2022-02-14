@@ -194,8 +194,8 @@ class AddRecord(FlaskForm):
     ALLGRADEX = IntegerField('What is this child’s current grade, grade equivalent, or year of school?', [ InputRequired(),
         NumberRange(min=1, max=12, message="Invalid range")
         ])
-    SEGRADES = IntegerField('What is this child’s current grade, grade equivalent, or year of school?', [ InputRequired(),
-        NumberRange(min=1, max=12, message="Invalid range")
+    SEGRADES = SelectField('Please tell us about this child’s grades during school year. Overall, across all subjects, what does child get?', coerce=int,
+        choices=[(1,'Mostly A\'s'), (2,'Mostly B\'s'), (3,'Mostly C\'s'), (4,'D\'s or lower')
         ])
     # FODINNERX = IntegerField('In the past week, how many days has your family eaten the evening meal together?', [ InputRequired(),
     #     NumberRange(min=0, max=7, message="Invalid range")
@@ -240,6 +240,7 @@ def add_record():
     form1 = AddRecord()
     if form1.validate_on_submit():
         ALLGRADEX = request.form['ALLGRADEX']
+        SEGRADES = request.form['SEGRADES']
         # FOREADTOX = request.form['FOREADTOX']
         # FORDDAYX = request.form['FORDDAYX']
         RECAPTCHA = request.form['RECAPTCHA']
@@ -247,7 +248,7 @@ def add_record():
         id = genID()
         updated = stringdate()
         # the data to be inserted into questionair model - the table
-        record = Questions(id, ALLGRADEX, RECAPTCHA)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
+        record = Questions(id, updated, ALLGRADEX, SEGRADES, RECAPTCHA)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
