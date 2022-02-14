@@ -41,9 +41,10 @@ app.config['RECAPTCHA_OPTIONS'] = {'theme': 'white'}
 class Questions(db.Model):
     __tablename__ = 'NHES_19_PFI'
     id = db.Column(db.Integer, primary_key=True)
+    updated = db.Column(db.Date)
     ALLGRADEX = db.Column(db.Integer)
-    # SEGRADES = db.Column(db.Integer)
-    # CENREG = db.Column(db.Integer)
+    SEGRADES = db.Column(db.Integer)
+    CENREG = db.Column(db.Integer)
     # SCH_TYPE = db.Column(db.Integer)
     # EDCPUB = db.Column(db.Integer)
     # EDCCAT = db.Column(db.Integer)
@@ -108,22 +109,12 @@ class Questions(db.Model):
     # LRNTAB = db.Column(db.Integer)
     # LRNCELL = db.Column(db.Integer)
 
-    def __init__(self,id,ALLGRADEX):
-    
-                # SEGRADES,CENREG,SCH_TYPE,EDCPUB,EDCCAT,EDCREL,EDCPRI,
-                # EDCINTK12,EDCHSFL,DISTASSI,SCHRTSCHL,SCHLMAGNET,SPBSCH,SOTHRSCH, 
-                # STUTR,SOTHSCH,SEENJOY,SEABSNT,FCSCHOOL,FCTEACHR,FCSTDS,FCSUPPRT, 
-                # FHHOME,FHWKHRS,FOSTORY2X,FOCRAFTS,FOGAMES,FOBUILDX,FOSPORT,FORESPON,
-                # FOHISTX,FODINNERX,FOLIBRAYX,FOBOOKSTX,FOCONCRTX,FOMUSEUMX,FOZOOX,FOGROUPX,
-                # FOSPRTEVX,HHENGLISH,CSPEAKX,HHTOTALXX,HHPRTNRSX,P1REL,P1SEX,P1MRSTA,
-                # P1AGE,P2GUARD,P2AGE,P2REL,P2SEX,P2MRSTA,PAR1EMPL,PAR1FTFY,PAR2FTFY,
-                # NUMSIBSX,TTLHHINC,OWNRNTHB,HVINTSPHO,HVINTCOM,INTACC,CHLDNT,LRNCOMP,
-                # LRNTAB,LRNCELL):
-        
+    def __init__(self,id,updated,ALLGRADEX,SEGRADES,CENREG):      
         self.id = id
+        self.updated = updated
         self.ALLGRADEX = ALLGRADEX
-        # self.SEGRADES = SEGRADES
-        # self.CENREG = CENREG
+        self.SEGRADES = SEGRADES
+        self.CENREG = CENREG
         # self.SCH_TYPE = SCH_TYPE
         # self.EDCPUB = EDCPUB
         # self.EDCCAT = EDCCAT
@@ -191,8 +182,14 @@ class Questions(db.Model):
 class AddRecord(FlaskForm):
     # id used only by update/edit
     id_field = HiddenField()
+    CENREG = SelectField('In which region do you live?', coerce=int,
+        choices=[(1,'Northeast (CN, ME, MA, NH, NJ, NY, PA, RI, VT)'), 
+        (2,'South (AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV)'), 
+        (3,'Midwest (IL, IN, IA, KN, MI, MN, MO, NB, ND, OH, SD, WI)'), 
+        (4,'West (AK, AZ, CA, CO, HI, ID, MT, NN, NM, OR, UT, WH, WY)')
+        ])
     ALLGRADEX = IntegerField('What is this child’s current grade, grade equivalent, or year of school?', [ InputRequired(),
-        NumberRange(min=1, max=12, message="Invalid range")
+        NumberRange(min=1, max=12, message="Invalid range, enter a number between 1 and 12")
         ])
     SEGRADES = SelectField('Please tell us about this child’s grades during school year. Overall, across all subjects, what does child get?', coerce=int,
         choices=[(1,'Mostly A\'s'), (2,'Mostly B\'s'), (3,'Mostly C\'s'), (4,'D\'s or lower')
@@ -206,6 +203,7 @@ class AddRecord(FlaskForm):
     # FORDDAYX = IntegerField('About how many minutes on each of those times did you or someone in your family read to this child?', [ InputRequired(),
     #     NumberRange(min=0, max=999, message="Invalid range")
     #     ])
+    # ReCaptcha validation
     recaptcha = RecaptchaField()
     # updated - date - handled in the route function
     updated = HiddenField()
@@ -217,8 +215,10 @@ class AddRecord(FlaskForm):
 def stringdate():
     today = datetime.today()
     date_list = str(today).split('-')
+    date_list = date_list + date_list[2].split(' ')
     # build string in format 01-01-2000
-    date_string = date_list[1] + "-" + date_list[2] + "-" + date_list[0]
+    date_string = date_list[1] + "/" + date_list[3] + "/" + date_list[0]
+    print (date_list)
     return date_string
 
 def genID():
@@ -238,17 +238,19 @@ def index():
 @app.route('/add_record', methods=['GET', 'POST'])
 def add_record():
     form1 = AddRecord()
+
     if form1.validate_on_submit():
         ALLGRADEX = request.form['ALLGRADEX']
         SEGRADES = request.form['SEGRADES']
+        CENREG = request.form['CENREG']
         # FOREADTOX = request.form['FOREADTOX']
         # FORDDAYX = request.form['FORDDAYX']
         RECAPTCHA = request.form['RECAPTCHA']
         # get today's date from function, above all the routes
         id = genID()
         updated = stringdate()
-        # the data to be inserted into questionair model - the table
-        record = Questions(id, updated, ALLGRADEX, SEGRADES, RECAPTCHA)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
+        # the data to be inserted into page
+        record = Questions(id, updated, ALLGRADEX, SEGRADES, CENREG, RECAPTCHA)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
