@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
-from flask_wtf.recaptcha import RecaptchaField
-
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import SubmitField, SelectField, RadioField, HiddenField, StringField, IntegerField, FloatField
 from wtforms.validators import InputRequired, Length, Regexp, NumberRange
@@ -206,10 +204,10 @@ class AddRecord(FlaskForm):
     #     NumberRange(min=0, max=999, message="Invalid range")
     #     ])
     # ReCaptcha validation
-    recaptcha = RecaptchaField()
+    #recaptcha = RecaptchaField()
     # updated - date - handled in the route function
     updated = HiddenField()
-    submit = SubmitField('Add/Update Record')
+    submit = SubmitField('Submit Answers')
 
 # +++++++++++++++++++++++
 # get local date - does not account for time zone
@@ -247,12 +245,12 @@ def add_record():
         CENREG = request.form['CENREG']
         # FOREADTOX = request.form['FOREADTOX']
         # FORDDAYX = request.form['FORDDAYX']
-        RECAPTCHA = request.form['RECAPTCHA']
+        #RECAPTCHA = request.form['RECAPTCHA']
         # get today's date from function, above all the routes
         id = genID()
         updated = stringdate()
         # the data to be inserted into page
-        record = Questions(id, updated, ALLGRADEX, SEGRADES, CENREG, RECAPTCHA)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
+        record = Questions(id, updated, ALLGRADEX, SEGRADES, CENREG)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
