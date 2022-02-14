@@ -10,9 +10,8 @@
 
 CREATE TABLE "NHES_19_PFI" (
     "id" varchar   NOT NULL,
-	"updated" date,
     "ALLGRADEX" int,
-	"SEGRADES" int,
+    "SEGRADES" int,
     "CENREG" int,
     "SCH_TYPE" int,
     "EDCPUB" int,
