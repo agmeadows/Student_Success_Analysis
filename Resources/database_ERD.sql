@@ -3,9 +3,16 @@
 -- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
 
+-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- Link to schema: https://app.quickdatabasediagrams.com/#/d/5QBaql
+-- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+
+
 CREATE TABLE "NHES_19_PFI" (
     "id" varchar   NOT NULL,
+	"updated" date,
     "ALLGRADEX" int,
+	"SEGRADES" int,
     "CENREG" int,
     "SCH_TYPE" int,
     "EDCPUB" int,
@@ -74,4 +81,3 @@ CREATE TABLE "NHES_19_PFI" (
         "id"
      )
 );
-
