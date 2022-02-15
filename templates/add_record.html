@@ -1,5 +1,6 @@
 {% extends 'bootstrap/base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% from "macros.html" import render_field %}
 
 
 {% block styles %}
@@ -19,7 +20,7 @@ Student Success Survey Questions
 
 <div class="container">
 	<div class="row pb-5">
-		<div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+		<div class="col-md-16 col-lg-12 mx-lg-auto mx-md-auto">
 
 		<h1 class="pt-5 pb-2">Student Success Survey Questions</h1>
 
@@ -36,36 +37,105 @@ Student Success Survey Questions
 
 		{% else %}
 
-			<!-- the form is displayed when template opens via GET not POST -->
+		<!-- the form is displayed when template opens via GET not POST -->
 
-			<p class="lead alert alert-primary">Submit your answers to our database.</p>
+		<p class="lead alert alert-primary">Submit your answers to our database.</p>
 
-			<p class="ml-4"><a href="{{ url_for('index') }}">Return to the main page.</a></p>
+		<p class="ml-4"><a href="{{ url_for('index') }}">Return to the main page.</a></p>
 
-			<!-- show flash - based on WTForms validators
-				 see https://pythonprogramming.net/flash-flask-tutorial/
-				 get_flashed_messages() exists here because of flash()
-				 in the route function
-				 -->
-			{% with errors = get_flashed_messages() %}
-				{% if errors %}
-					{% for err in errors %}
-						<div class="alert alert-danger alert-dismissible" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-						{{ err }}
-						</div>
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
-			<!-- end of flash -->
+		<!-- show flash - based on WTForms validators
+				see https://pythonprogramming.net/flash-flask-tutorial/
+				get_flashed_messages() exists here because of flash()
+				in the route function
+				-->
+		{% with errors = get_flashed_messages() %}
+			{% if errors %}
+				{% for err in errors %}
+					<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+					{{ err }}
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		<!-- end of flash -->
 
-			<!-- the form, thanks to WTForms -->
-		    {{ wtf.quick_form(form1) }}
-
-		{% endif %}
-
-		</div>
+		{% macro render_form44(form1, action_url='', action_text='Submit', class_='', btn_class='btn btn-default') -%}
+			{% for f in form1 %}
+				{{ render_field(f) }}
+			{% endfor %}
+		{%- endmacro %}
+			
+			
+		<style type="text/css">
+		
+		#form {
+  		position: relative; /* labels need this on the their parent element */
+		}
+		
+		fieldset.group  {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		margin-bottom: 1.25em;
+		padding: .125em;
+		}
+		
+		fieldset.group legend {
+		margin: 0;
+		padding: 0;
+		font-weight: bold;
+		margin-left: 20px;
+		font-size: 100%;
+		color: black;
+		}
+		
+		fieldset {display: inline-block; vertical-align: middle;}
+		fieldset {display: inline}
+		
+		ul.field  {
+		margin: 0;
+		padding: 0;
+		margin-left: 20px;
+		list-style: none;
+		}
+		
+		ul.field li input {
+		margin-right: .25em;
+		}
+		
+		ul.field li {
+		border: 1px transparent solid;
+		display:inline-block;
+		width:12em;
+		}
+		
+		ul.field li label {
+		margin-left: ;
+		}
+		
+		.field {
+			-webkit-column-count: 2; /* Chrome, Safari, Opera */
+			-moz-column-count: 2; /* Firefox */
+			column-count: 2;
+		}
+		
+		</style>
+		<form method="POST" action="{{ action_url }}" role="form" class="{{ class_ }}">
+			<fieldset class="group">
+				<legend>Basic Info</legend>
+				<ul class="field">
+					{{ render_form44(form1) }}
+				</ul>
+			</fieldset>
+			<fieldset class="group">
+				<ul class="checkbox">
+					<!-- the form, thanks to WTForms -->
+					{{ wtf.quick_form(form2) }}
+				</ul>
+			</fieldset>
+		</form>
 	</div>
 </div>
-
+{% endif %}
 {% endblock %}

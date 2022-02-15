@@ -11,10 +11,8 @@
 
 
 {% block title %}
-	{% if choice == 'delete' %}
-		Delete a Sock
-	{% elif choice == 'edit' %}
-		Edit a Sock
+	{% if choice == 'edit' %}
+		Edit Answers
 	{% endif %}
 {% endblock %}
 
@@ -26,67 +24,36 @@
     <div class="col-lg-10 mx-lg-auto">
 
       <h1 class="pt-5 pb-2">
-		{% if choice == 'delete' %}
-	  		Delete a Sock
 	  	{% elif choice == 'edit' %}
-	  		Edit a Sock
+	  		Edit your answers
 	  	{% endif %}
 	  </h1>
 	  <!-- ----- THIS TEMPLATE HAS TWO FORMS ----- -->
 	  <!-- but only one will be visible, depending on how the template
   		   was opened -->
 
-	  <!-- ----- start delete sock content ----- -->
-
-	  {% if choice == 'delete' %}
-
-	      <p class="lead alert alert-danger">Are you sure you want to delete this sock?</p>
-
-		  <!-- links -->
-		  <p class="ml-4">No. <a href="{{ url_for('index') }}">Return to the index.</a></p>
-
-		  <p class="ml-4">No. <a href="{{ url_for( 'select_record', letters='AF' ) }}">Return to the selection page.</a></p>
-
-		<!-- table showing the selected sock -->
+		<!-- table showing loaded record -->
 		<table class="table">
 			<tr>
-				<th>Sock Name</th>
-				<th>Color</th>
-				<th>Style</th>
-				<th>Price</th>
-				<th>Quantity</th>
+				<th>Grade</th>
+				<th>Grade Score</th>
+				<th>Region</th>
 				<th>Updated</th>
 			</tr>
 
-			<!-- just one sock here -->
+			<!-- just one record here -->
 			<tr>
-				<td>{{ sock.name }}</td>
-				<td>{{ sock.color }}</td>
-				<td>{{ sock.style }}</td>
-				<td>${{ sock.price }}</td>
-				<td>{{ sock.quantity }}</td>
-				<td>{{ sock.updated }}</td>
+				<td>{{ questions.ALLGRADEX }}</td>
+				<td>{{ questions.SEGRADES }}</td>
+				<td>{{ questions.CENREG }}</td>
+				<td>{{ questions.updated }}</td>
 			</tr>
 
 		</table>
 
-
-		<!-- start form for deleting record - not quickform but still WTForms -->
-  		<form action="{{ url_for('delete_result') }}" method="POST" id="delete">
-			{{ form2.csrf_token }}
-			{{ form2.id_field(value=sock.id) }}
-			{{ form2.purpose(value='delete') }}
-			{{ form2.submit(class="btn btn-danger space-below-btn") }}
-		</form>
-		<!-- end form -->
-
-
-		<!-- ----- end delete sock content ----- -->
-		{% else %}
-
 		<!-- ----- start edit sock content ----- -->
 
-		<p class="lead alert alert-success">Edit the selected sock below.</p>
+		<p class="lead alert alert-success">Edit your answers below.</p>
 
 		<!-- links -->
 		<p><a href="{{ url_for('index') }}">Return to the index.</a></p>
@@ -114,12 +81,10 @@
 			 correct use of WTF Bootstrap styles -->
 		<form method="post" action="{{ url_for('edit_result') }}" id="update">
 			{{ form1.csrf_token }}
-			{{ form1.id_field(value=sock.id) }}
-			{{ wtf.form_field(form1.name, value=sock.name) }}
-			{{ wtf.form_field(form1.style) }}
-			{{ wtf.form_field(form1.color, value=sock.color) }}
-			{{ wtf.form_field(form1.quantity, value=sock.quantity) }}
-			{{ wtf.form_field(form1.price, value=sock.price) }}
+			{{ form1.id_field(value=questions.id) }}
+			{{ wtf.form_field(form1.ALLGRADEX, value=questions.ALLGRADEX) }}
+			{{ wtf.form_field(form1.SEGRADES, value=questions.SEGRADES) }}
+			{{ wtf.form_field(form1.CENREG, value=questions.CENREG) }}
 			{{ wtf.form_field(form1.submit, button_map={'submit':'success'}) }}
 		</form>
 

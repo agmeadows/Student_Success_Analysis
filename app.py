@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm, RecaptchaField
+from flask_wtf import FlaskForm, RecaptchaField, Recaptcha
 from wtforms import SubmitField, SelectField, RadioField, HiddenField, StringField, IntegerField, FloatField
-from wtforms.validators import InputRequired, Length, Regexp, NumberRange
+from wtforms.validators import InputRequired, Length, Regexp, NumberRange, ValidationError
 
 from datetime import datetime
 from uuid import uuid4
@@ -45,7 +45,7 @@ class Questions(db.Model):
     ALLGRADEX = db.Column(db.Integer)
     SEGRADES = db.Column(db.Integer)
     CENREG = db.Column(db.Integer)
-    # SCH_TYPE = db.Column(db.Integer)
+    SCH_TYPE = db.Column(db.Integer)
     # EDCPUB = db.Column(db.Integer)
     # EDCCAT = db.Column(db.Integer)
     # EDCREL = db.Column(db.Integer)
@@ -109,13 +109,13 @@ class Questions(db.Model):
     # LRNTAB = db.Column(db.Integer)
     # LRNCELL = db.Column(db.Integer)
 
-    def __init__(self,id,updated,ALLGRADEX,SEGRADES,CENREG):      
+    def __init__(self,id,updated,ALLGRADEX,SEGRADES,CENREG, SCH_TYPE):      
         self.id = id
         self.updated = updated
         self.ALLGRADEX = ALLGRADEX
         self.SEGRADES = SEGRADES
         self.CENREG = CENREG
-        # self.SCH_TYPE = SCH_TYPE
+        self.SCH_TYPE = SCH_TYPE
         # self.EDCPUB = EDCPUB
         # self.EDCCAT = EDCCAT
         # self.EDCREL = EDCREL
@@ -181,7 +181,6 @@ class Questions(db.Model):
 
 class AddRecord(FlaskForm):
     # id used only by update/edit
-    id_field = HiddenField()
     CENREG = SelectField('In which region do you live?', coerce=int,
         choices=[(1,'Northeast (CN, ME, MA, NH, NJ, NY, PA, RI, VT)'), 
         (2,'South (AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV)'), 
@@ -191,8 +190,11 @@ class AddRecord(FlaskForm):
     ALLGRADEX = IntegerField('What is this child’s current grade, grade equivalent, or year of school?', [ InputRequired(),
         NumberRange(min=1, max=12, message="Invalid range, enter a number between 1 and 12")
         ])
-    SEGRADES = SelectField('Please tell us about this child’s grades during school year. Overall, across all subjects, what does child get?', coerce=int,
+    SEGRADES = SelectField('Overall, across all subjects, what average grade does the child get?', coerce=int,
         choices=[(1,'Mostly A\'s'), (2,'Mostly B\'s'), (3,'Mostly C\'s'), (4,'D\'s or lower')
+        ])
+    SCH_TYPE = SelectField('What type of school does your child attend?', coerce=int,
+        choices=[(1,'Regular'), (2,'Special Education'), (3,'Vocational School'), (4,'Other/Alternative'), (-1,'Homeschool')
         ])
     # FODINNERX = IntegerField('In the past week, how many days has your family eaten the evening meal together?', [ InputRequired(),
     #     NumberRange(min=0, max=7, message="Invalid range")
@@ -204,10 +206,22 @@ class AddRecord(FlaskForm):
     #     NumberRange(min=0, max=999, message="Invalid range")
     #     ])
     # ReCaptcha validation
-    recaptcha = RecaptchaField('Please comfirm you are human')
     # updated - date - handled in the route function
+    #recaptcha = RecaptchaField('Please comfirm you are human')
+    id_field = HiddenField()
     updated = HiddenField()
+
+class ReCaptcha(FlaskForm):
+    recaptcha = RecaptchaField(validators=[Recaptcha('Please comfirm you are human')])
     submit = SubmitField('Submit Answers')
+
+class ViewRecord(FlaskForm):
+    id_field = StringField('ID', validators=[InputRequired()])
+    submit = SubmitField('Submit ID')
+
+    def validate_id(form, field):
+        if len(field.data) > 53 and len(field.data) < 53:
+            raise ValidationError('ID must be 50 characters')
 
 # +++++++++++++++++++++++
 # get local date - does not account for time zone
@@ -234,22 +248,37 @@ def index():
     # get a list of unique values in the style column
     return render_template('index.html')
 
+# select a record to edit or delete
+@app.route('/select_record', methods=['GET', 'POST'])
+def select_record():
+    form1 = ViewRecord()
+
+    if form1.is_submitted():
+        id = request.form['id_field']
+        questions = Questions.query.filter(Questions.id == id).first()
+    else:
+        return render_template('select_record.html', form1=form1)
+    
+    return render_template('select_record.html', form1=form1, questions=questions, id=id)
+
 # add a new sock to the database
 @app.route('/add_record', methods=['GET', 'POST'])
 def add_record():
     form1 = AddRecord()
+    form2 = ReCaptcha()
 
-    if form1.validate_on_submit():
+    if form1.validate_on_submit() and form2.validate_on_submit():
         ALLGRADEX = request.form['ALLGRADEX']
         SEGRADES = request.form['SEGRADES']
         CENREG = request.form['CENREG']
+        SCH_TYPE = request.form['SCH_TYPE']
         # FOREADTOX = request.form['FOREADTOX']
         # FORDDAYX = request.form['FORDDAYX']
         # get today's date from function, above all the routes
         id = genID()
         updated = stringdate()
         # the data to be inserted into page
-        record = Questions(id, updated, ALLGRADEX, SEGRADES, CENREG)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
+        record = Questions(id, updated, ALLGRADEX, SEGRADES, CENREG, SCH_TYPE)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
@@ -265,19 +294,19 @@ def add_record():
                     getattr(form1, field).label.text,
                     error
                 ), 'error')
-        return render_template('add_record.html', form1=form1)
+        return render_template('add_record.html', form1=form1, form2=form2)
 
 # result of edit - this function updates the record
 @app.route('/edit_result', methods=['POST'])
 def edit_result():
+    form1 = ViewRecord()
     id = request.form['id_field']
     # call up the record from the database
     questions = Questions.query.filter(Questions.id == id).first()
     # update all values
     ALLGRADEX = request.form['ALLGRADEX']
-    FODINNERX = request.form['FODINNERX']
-    FOREADTOX = request.form['FOREADTOX']
-    FORDDAYX = request.form['FORDDAYX']
+    SEGRADES = request.form['SEGRADES']
+    CENREG = request.form['CENREG']
     # get today's date from function, above all the routes
     questions.updated = stringdate()
 
