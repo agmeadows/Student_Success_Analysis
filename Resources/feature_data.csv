@@ -8,30 +8,30 @@ value,feature,group
 0.036,HHTOTALXX,Family Demographics
 0.034,FHHOME,School Behavior
 0.032,P2MRSTA,Family Demographics
-0.032,INTACC,Other
-0.032,FORESPON,School Behavior
+0.032,INTACC,Technology
+0.032,FORESPON,Enrichment Activities
 0.03,PAR1FTFY,Family Demographics
 0.026,P2REL,Family Demographics
 0.026,P1REL,Family Demographics
-0.024,HHPRTNRSX,Other
+0.024,HHPRTNRSX,Family Demographics
 0.024,FOHISTX,Family Demographics
 0.024,FOGAMES,Enrichment Activity
 0.024,FCTEACHR,School Sentiment
 0.022,OWNRNTHB,Family Demographics
-0.02,SCHRTSCHL,Other
+0.02,SCHRTSCHL,School Type
 0.018,P2AGE,Family Demographics
 0.018,HHENGLISH,Family Demographics
 0.018,FOLIBRAYX,Enrichment Activity
 0.018,FOBOOKSTX,Enrichment Activity
 0.016,NUMSIBSX,Family Demographics
-0.016,FOCONCRTX,Other
+0.016,FOCONCRTX,Enrichment Activity
 0.014,P2SEX,Family Demographics
 0.014,FOSTORY2X,Enrichment Activity
 0.014,FOMUSEUMX,Enrichment Activity
 0.014,FCSCHOOL,School Sentiment
-0.012,SCHLMAGNET,Other
-0.01,FCSTDS,Other
+0.012,SCHLMAGNET,School Type
+0.01,FCSTDS,School Sentiment
 0.008,PAR1EMPL,Family Demographics
-0.008,LRNCELL,Other
-0.008,CHLDNT,Other
-0.006,DISTASSI,Other
+0.008,LRNCELL,Technology
+0.008,CHLDNT,Technology
+0.006,DISTASSI,School Type
