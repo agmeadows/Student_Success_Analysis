@@ -14,4 +14,18 @@ We hope to answer the following questions:
 
 ## Dream Team Protocols
 We have named our project group the Dream Team.  We hae settled on a quick daily checkin at 6:00 via Slack.  Future meetings may be scheduled as needed depending on challenges presented throughout the project.  
- 
+
+## Data Management
+The cleaned and processed data will be housed in an Postgres database hosted by Heroku. This includes the train and test data, survey responses and feature importance. Below is a link to the ERD:
+
+![Resources/Database_ERD.rtf]
+
+The data will then be pulled in for use in the dashboard.
+
+## Front End
+The front end is a Flask site using Bootstrap hosted by Heroku. People can submit answers to a selection of questions picked from the National Household Education Surveys Program. These answers can then be used to train and/or test the model moving forward. The immediate use of the answers will be to provide recommendations on what parents can do to improve their childs success. The results will be displayed on the dashboard. The front end can be accessed here:
+
+![https://student-success-analysis.herokuapp.com/]
+
+## Dashboard
+To do
