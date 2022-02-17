@@ -18,7 +18,7 @@ We have named our project group the Dream Team.  We hae settled on a quick daily
 ## Data Management
 The cleaned and processed data will be housed in an Postgres database hosted by Heroku. This includes the train and test data, survey responses and feature importance. Below is a link to the ERD:
 
-![Database_ERD](./Resources/Database_ERD.rtf)
+![Database_ERD](./Resources/Database_ERD.sql)
 
 The data will then be pulled in for use in the dashboard.
 
