@@ -1,9 +1,10 @@
+from msilib.schema import CheckBox
 from flask import Flask, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm, RecaptchaField, Recaptcha
-from wtforms import SubmitField, SelectField, RadioField, HiddenField, StringField, IntegerField, FloatField
-from wtforms.validators import InputRequired, Length, Regexp, NumberRange, ValidationError
+from wtforms import SubmitField, SelectField, HiddenField, IntegerField
+from wtforms.validators import InputRequired, NumberRange, ValidationError
 
 from datetime import datetime
 from uuid import uuid4
@@ -45,183 +46,231 @@ class Questions(db.Model):
     ALLGRADEX = db.Column(db.Integer)
     SEGRADES = db.Column(db.Integer)
     CENREG = db.Column(db.Integer)
-    SCH_TYPE = db.Column(db.Integer)
-    # EDCPUB = db.Column(db.Integer)
-    # EDCCAT = db.Column(db.Integer)
-    # EDCREL = db.Column(db.Integer)
-    # EDCPRI = db.Column(db.Integer)
-    # EDCINTK12 = db.Column(db.Integer)
-    # EDCHSFL = db.Column(db.Integer)
-    # DISTASSI = db.Column(db.Integer)
-    # SCHRTSCHL = db.Column(db.Integer)
-    # SCHLMAGNET = db.Column(db.Integer)
-    # SPBSCH = db.Column(db.Integer)
-    # SOTHRSCH = db.Column(db.Integer)
-    # STUTR = db.Column(db.Integer)
-    # SOTHSCH = db.Column(db.Integer)
-    # SEENJOY = db.Column(db.Integer)
-    # SEABSNT = db.Column(db.Integer)
-    # FCSCHOOL = db.Column(db.Integer)
-    # FCTEACHR = db.Column(db.Integer)
-    # FCSTDS = db.Column(db.Integer)
-    # FCSUPPRT = db.Column(db.Integer)
-    # FHHOME = db.Column(db.Integer)
-    # FHWKHRS = db.Column(db.Integer)
-    # FOSTORY2X = db.Column(db.Integer)
-    # FOCRAFTS = db.Column(db.Integer)
-    # FOGAMES = db.Column(db.Integer)
-    # FOBUILDX = db.Column(db.Integer)
-    # FOSPORT = db.Column(db.Integer)
-    # FORESPON = db.Column(db.Integer)
-    # FOHISTX = db.Column(db.Integer)
-    # FODINNERX = db.Column(db.Integer)
-    # FOLIBRAYX = db.Column(db.Integer)
-    # FOBOOKSTX = db.Column(db.Integer)
-    # FOCONCRTX = db.Column(db.Integer)
-    # FOMUSEUMX = db.Column(db.Integer)
-    # FOZOOX = db.Column(db.Integer)
-    # FOGROUPX = db.Column(db.Integer)
-    # FOSPRTEVX = db.Column(db.Integer)
-    # HHENGLISH = db.Column(db.Integer)
-    # CSPEAKX = db.Column(db.Integer)
-    # HHTOTALXX = db.Column(db.Integer)
-    # HHPRTNRSX = db.Column(db.Integer)
-    # P1REL = db.Column(db.Integer)
-    # P1SEX = db.Column(db.Integer)
-    # P1MRSTA = db.Column(db.Integer)
-    # P1AGE = db.Column(db.Integer)
-    # P2GUARD = db.Column(db.Integer)
-    # P2AGE = db.Column(db.Integer)
-    # P2REL = db.Column(db.Integer)
-    # P2SEX = db.Column(db.Integer)
-    # P2MRSTA = db.Column(db.Integer)
-    # PAR1EMPL = db.Column(db.Integer)
-    # PAR1FTFY = db.Column(db.Integer)
-    # PAR2FTFY = db.Column(db.Integer)
-    # NUMSIBSX = db.Column(db.Integer)
-    # TTLHHINC = db.Column(db.Integer)
-    # OWNRNTHB = db.Column(db.Integer)
-    # HVINTSPHO = db.Column(db.Integer)
-    # HVINTCOM = db.Column(db.Integer)
-    # INTACC = db.Column(db.Integer)
-    # CHLDNT = db.Column(db.Integer)
-    # LRNCOMP = db.Column(db.Integer)
-    # LRNTAB = db.Column(db.Integer)
-    # LRNCELL = db.Column(db.Integer)
+    DISTASSI = db.Column(db.Integer)
+    SCHRTSCHL = db.Column(db.Integer)
+    SCHLMAGNET = db.Column(db.Integer)
+    SEENJOY = db.Column(db.Integer)
+    SEABSNT = db.Column(db.Integer)
+    FCSCHOOL = db.Column(db.Integer)
+    FCTEACHR = db.Column(db.Integer)
+    FCSTDS = db.Column(db.Integer)
+    FHHOME = db.Column(db.Integer)
+    FHWKHRS = db.Column(db.Integer)
+    FOSTORY2X = db.Column(db.Integer)
+    FOGAMES = db.Column(db.Integer)
+    FORESPON = db.Column(db.Integer)
+    FOHISTX = db.Column(db.Integer)
+    FOLIBRAYX = db.Column(db.Integer)
+    FOBOOKSTX = db.Column(db.Integer)
+    FOCONCRTX = db.Column(db.Integer)
+    FOMUSEUMX = db.Column(db.Integer)
+    HHENGLISH = db.Column(db.Integer)
+    CSPEAKX = db.Column(db.Integer)
+    HHTOTALXX = db.Column(db.Integer)
+    HHPRTNRSX = db.Column(db.Integer)
+    P1REL = db.Column(db.Integer)
+    P2AGE = db.Column(db.Integer)
+    P2REL = db.Column(db.Integer)
+    P2SEX = db.Column(db.Integer)
+    P2MRSTA = db.Column(db.Integer)
+    PAR1EMPL = db.Column(db.Integer)
+    PAR1FTFY = db.Column(db.Integer)
+    NUMSIBSX = db.Column(db.Integer)
+    TTLHHINC = db.Column(db.Integer)
+    OWNRNTHB = db.Column(db.Integer)
+    CHLDNT = db.Column(db.Integer)
+    LRNCELL = db.Column(db.Integer)
 
-    def __init__(self,id,updated,ALLGRADEX,SEGRADES,CENREG, SCH_TYPE):      
+    def __init__(self,id,updated, ALLGRADEX, SEGRADES, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
+                FOSTORY2X, FORESPON, CSPEAKX, FOHISTX, HHENGLISH, HHPRTNRSX, HHTOTALXX,
+                NUMSIBSX, OWNRNTHB, P1REL, P2AGE, P2MRSTA, P2REL, P2SEX, PAR1EMPL, PAR1FTFY,
+                TTLHHINC, CENREG, FHHOME, FHWKHRS, SEABSNT, FCSCHOOL, FCSTDS, FCTEACHR,
+                SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC, LRNCELL
+                ):      
         self.id = id
         self.updated = updated
         self.ALLGRADEX = ALLGRADEX
         self.SEGRADES = SEGRADES
         self.CENREG = CENREG
-        self.SCH_TYPE = SCH_TYPE
-        # self.EDCPUB = EDCPUB
-        # self.EDCCAT = EDCCAT
-        # self.EDCREL = EDCREL
-        # self.EDCPRI = EDCPRI
-        # self.EDCINTK12 = EDCINTK12
-        # self.EDCHSFL = EDCHSFL
-        # self.DISTASSI = DISTASSI
-        # self.SCHRTSCHL = SCHRTSCHL
-        # self.SCHLMAGNET = SCHLMAGNET
-        # self.SPBSCH = SPBSCH
-        # self.SOTHRSCH = SOTHRSCH
-        # self.STUTR = STUTR
-        # self.SOTHSCH = SOTHSCH
-        # self.SEENJOY = SEENJOY
-        # self.SEABSNT = SEABSNT
-        # self.FCSCHOOL = FCSCHOOL
-        # self.FCTEACHR = FCTEACHR
-        # self.FCSTDS = FCSTDS
-        # self.FCSUPPRT = FCSUPPRT
-        # self.FHHOME = FHHOME
-        # self.FHWKHRS = FHWKHRS
-        # self.FOSTORY2X = FOSTORY2X
-        # self.FOCRAFTS = FOCRAFTS
-        # self.FOGAMES = FOGAMES
-        # self.FOBUILDX = FOBUILDX
-        # self.FOSPORT = FOSPORT
-        # self.FORESPON = FORESPON
-        # self.FOHISTX = FOHISTX
-        # self.FODINNERX = FODINNERX
-        # self.FOLIBRAYX = FOLIBRAYX
-        # self.FOBOOKSTX = FOBOOKSTX
-        # self.FOCONCRTX = FOCONCRTX
-        # self.FOMUSEUMX = FOMUSEUMX
-        # self.FOZOOX = FOZOOX
-        # self.FOGROUPX = FOGROUPX
-        # self.FOSPRTEVX = FOSPRTEVX
-        # self.HHENGLISH = HHENGLISH
-        # self.CSPEAKX = CSPEAKX
-        # self.HHTOTALXX = HHTOTALXX
-        # self.HHPRTNRSX = HHPRTNRSX
-        # self.P1REL = P1REL
-        # self.P1SEX = P1SEX
-        # self.P1MRSTA = P1MRSTA
-        # self.P1AGE = P1AGE
-        # self.P2GUARD = P2GUARD
-        # self.P2AGE = P2AGE
-        # self.P2REL = P2REL
-        # self.P2SEX = P2SEX
-        # self.P2MRSTA = P2MRSTA
-        # self.PAR1EMPL = PAR1EMPL
-        # self.PAR1FTFY = PAR1FTFY
-        # self.PAR2FTFY = PAR2FTFY
-        # self.NUMSIBSX = NUMSIBSX
-        # self.TTLHHINC = TTLHHINC
-        # self.OWNRNTHB = OWNRNTHB
-        # self.HVINTSPHO = HVINTSPHO
-        # self.HVINTCOM = HVINTCOM
-        # self.INTACC = INTACC
-        # self.CHLDNT = CHLDNT
-        # self.LRNCOMP = LRNCOMP
-        # self.LRNTAB = LRNTAB
-        # self.LRNCELL = LRNCELL
+        self.DISTASSI = DISTASSI
+        self.SCHRTSCHL = SCHRTSCHL
+        self.SCHLMAGNET = SCHLMAGNET
+        self.SEENJOY = SEENJOY
+        self.SEABSNT = SEABSNT
+        self.FCSCHOOL = FCSCHOOL
+        self.FCTEACHR = FCTEACHR
+        self.FCSTDS = FCSTDS
+        self.FHHOME = FHHOME
+        self.FHWKHRS = FHWKHRS
+        self.FOSTORY2X = FOSTORY2X
+        self.FOGAMES = FOGAMES
+        self.FORESPON = FORESPON
+        self.FOHISTX = FOHISTX
+        self.FOLIBRAYX = FOLIBRAYX
+        self.FOBOOKSTX = FOBOOKSTX
+        self.FOCONCRTX = FOCONCRTX
+        self.FOMUSEUMX = FOMUSEUMX
+        self.HHENGLISH = HHENGLISH
+        self.CSPEAKX = CSPEAKX
+        self.HHTOTALXX = HHTOTALXX
+        self.HHPRTNRSX = HHPRTNRSX
+        self.P1REL = P1REL
+        self.P2AGE = P2AGE
+        self.P2REL = P2REL
+        self.P2SEX = P2SEX
+        self.P2MRSTA = P2MRSTA
+        self.PAR1EMPL = PAR1EMPL
+        self.PAR1FTFY = PAR1FTFY
+        self.NUMSIBSX = NUMSIBSX
+        self.TTLHHINC = TTLHHINC
+        self.OWNRNTHB = OWNRNTHB
+        self.INTACC = INTACC
+        self.CHLDNT = CHLDNT
+        self.LRNCELL = LRNCELL
 
-class AddRecord(FlaskForm):
+class Region(FlaskForm):
     # id used only by update/edit
     CENREG = SelectField('In which region do you live?', coerce=int,
-        choices=[(1,'Northeast (CN, ME, MA, NH, NJ, NY, PA, RI, VT)'), 
+        choices=[(1, 'Northeast (CN, ME, MA, NH, NJ, NY, PA, RI, VT)'), 
         (2,'South (AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV)'), 
         (3,'Midwest (IL, IN, IA, KN, MI, MN, MO, NB, ND, OH, SD, WI)'), 
         (4,'West (AK, AZ, CA, CO, HI, ID, MT, NN, NM, OR, UT, WH, WY)')
         ])
+
+class Grades(FlaskForm):
     ALLGRADEX = IntegerField('What is this child’s current grade, grade equivalent, or year of school?', [ InputRequired(),
         NumberRange(min=1, max=12, message="Invalid range, enter a number between 1 and 12")
         ])
     SEGRADES = SelectField('Overall, across all subjects, what average grade does the child get?', coerce=int,
         choices=[(1,'Mostly A\'s'), (2,'Mostly B\'s'), (3,'Mostly C\'s'), (4,'D\'s or lower')
         ])
-    SCH_TYPE = SelectField('What type of school does your child attend?', coerce=int,
-        choices=[(1,'Regular'), (2,'Special Education'), (3,'Vocational School'), (4,'Other/Alternative'), (-1,'Homeschool')
+
+class SchoolType(FlaskForm):
+    DISTASSI = SelectField('Is the school your child attends a district assigned school?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
         ])
-    # FODINNERX = IntegerField('In the past week, how many days has your family eaten the evening meal together?', [ InputRequired(),
-    #     NumberRange(min=0, max=7, message="Invalid range")
-    #     ])
-    # FOREADTOX = IntegerField('How many times have you or someone in your family read to this child the past week?', [ InputRequired(),
-    #     NumberRange(min=0, max=999, message="Invalid range")
-    #     ])
-    # FORDDAYX = IntegerField('About how many minutes on each of those times did you or someone in your family read to this child?', [ InputRequired(),
-    #     NumberRange(min=0, max=999, message="Invalid range")
-    #     ])
-    # ReCaptcha validation
-    # updated - date - handled in the route function
-    #recaptcha = RecaptchaField('Please comfirm you are human')
+    SCHLMAGNET = SelectField('Does your child attend a magnet school or program?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    SCHRTSCHL = SelectField('Does your child attend a charter school?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+
+class SchoolSent(FlaskForm):
+    FCSCHOOL = SelectField('How satisfied are you with the school your child attends?', coerce=int,
+        choices=[(1,'Very satisfied'), (2,'Somewhat satisfied'), (3,'Somewhat dissatisfied'), (4,'Very dissatisfied')
+        ])
+    FCTEACHR = SelectField('How satisfied are you with the school\'s teachers?', coerce=int,
+        choices=[(1,'Very satisfied'), (2,'Somewhat satisfied'), (3,'Somewhat dissatisfied'), (4,'Very dissatisfied')
+        ])
+    FCSTDS = SelectField('How satisfied are you with the school\'s academic standards?', coerce=int,
+        choices=[(1,'Very satisfied'), (2,'Somewhat satisfied'), (3,'Somewhat dissatisfied'), (4,'Very dissatisfied')
+        ])
+    SEENJOY = SelectField('How much do you agree or disagree with the following: "This child enjoys school."', coerce=int,
+        choices=[(1,'Strongly agree'), (2,'Agree'), (3,'Disagree'), (4,'Strongly disagree')
+        ])
+
+class SchoolBeh(FlaskForm):
+    SEABSNT = SelectField('Since the beginning of this school year, how many days has child been absent from school?', coerce=int,
+        choices=[(1,'0 - 5'), (2,'6 - 10'), (3,'11 - 20'), (4,'More than 20 days')
+        ])
+    FHWKHRS = SelectField('In an average week, how many hours does this child spend on homework outside of school?', coerce=int,
+        choices=[(1,'0 - 20'), (2,'20 - 40'), (3,'40 - 60'), (4,'80+')
+        ])
+    FHHOME = SelectField('How often does this child do homework at home, an after-school program, or somewhere else outside of school?', coerce=int,
+        choices=[(1,'Less than once a week'), (2,'1 to 2 days a week'), (3,'3 to 4 days a week'), (4,'5 or more days a week'), (5,'Never')
+        ])
+
+class FamilyDem(FlaskForm):
+    PAR1EMPL = SelectField('What is your current work status?', coerce=int,
+        choices=[(1,'Work 35+ hours per week'), (2,'Work less than 35 hours per week'), (3,'Looking for work'), (4,'Not in the labor force')
+        ])
+    PAR1FTFY = SelectField('Do you work full-time?', coerce=int,
+        choices=[(1,'Full time and full year'), (2,'Less than full time or less than full year'), (3,'Not employed during the past year')
+        ])
+    P1REL = SelectField('What is your relationship to the child?', coerce=int,
+        choices=[(1,'Biological parent'), (2,'Adoptive parent'), (3,'Stepparent'), (4,'Foster parent'), (5,'Grandparent'), (6,'Other guardian')
+        ])
+    P2REL = SelectField('What is your partner\'s relationship to the child?', coerce=int,
+        choices=[(1,'Biological parent'), (2,'Adoptive parent'), (3,'Stepparent'), (4,'Foster parent'), (5,'Grandparent'), (6,'Other guardian')
+        ])
+    P2SEX = SelectField('What is the sex of the child\'s second parent?', coerce=int,
+        choices=[(1,'Male'), (2,'Female')
+        ])
+    P2AGE = SelectField('How old is the child\'s second parent or guardian?', coerce=int,
+        choices=[(1,'0 - 20'), (2,'20 - 40'), (3,'40 - 60'), (4,'60 - 80'), (5,'80 - 100')
+        ])
+    P2MRSTA = SelectField('What is the child\'s second partner or guardian\'s current marital status?', coerce=int,
+        choices=[(1,'Now married'), (2,'Widowed'), (3,'Divorced'), (4,'Separated'), (5,'Never married')
+        ])
+    HHTOTALXX = IntegerField('Including children, how many people live in live in this household?', [ InputRequired(),
+        NumberRange(min=1, max=10, message="Invalid range, enter a number between 1 and 10")
+        ])
+    NUMSIBSX = IntegerField('How many siblings does your child have?', [ InputRequired(),
+        NumberRange(min=0, max=10, message="Invalid range, enter a number between 1 and 10")
+        ])
+    HHENGLISH = SelectField('Do you speak English at home?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    CSPEAKX = SelectField('What is the Language spoken by the child at home?', coerce=int,
+        choices=[(1,'English'), (2,'Spanish'), (3,'English and Spanish equally'), (4,'A language other than English and Spanish'), (5,'English and another language equally')
+        ])
+    HHPRTNRSX = SelectField('Does your girlfriend/boyfriend/partner live in the household with this child?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    OWNRNTHB = SelectField('Do you own or rent your household?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    TTLHHINC = SelectField('Which category best fits the total income of all persons in you household over the past 12 months', coerce=int,
+        choices=[(1,'$0 - $40,000'), (2,'$40,001 - $100,000'), (3,'$100,001 - $200,000'), (4,'200,001 - $250,000+')
+        ])
+
+class Enrichment(FlaskForm):
+    FORESPON = SelectField('In the past month, have you or someone in your family discussed with him or her how to manage time?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    FOHISTX = SelectField('In the past month, have you or someone in your family talked with him or her about the family\'s history or ethnic heritage?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    FOSTORY2X = SelectField('In the past month, have you or someone in your family told him or her a story? (Do not include read to him or her)', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    FOCONCRTX = SelectField('In the past month, have you or someone in your family gone to a play, convert, or other live show?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    FOGAMES = SelectField('In the past month, have you or someone in your family played board games or did puzzles with him or her?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    FOBOOKSTX = SelectField('In the past month, have you or someone in your family visited a bookstore?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    FOLIBRAYX = SelectField('In the past month, have you or someone in your family visited a library with the child?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    FOMUSEUMX = SelectField('In the past month, have you or someone in your family visited a museum, or historical site?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+
+class Technology(FlaskForm):
+    INTACC = SelectField('Does your household have internet access?', coerce=int,
+        choices=[(1,'Yes'), (2,'At home and on a cell phone'), (3, 'Yes, at home only'), (4, 'Yes, on cell phone only'), (5, 'No')
+        ])
+    LRNCELL = SelectField('Does your child use the internet for learning activities on a call phone?', coerce=int,
+        choices=[(1,'Yes'), (2,'No')
+        ])
+    CHLDNT = SelectField('How often does this child use the Internet at home often does this child use the Internet at home for learning activities?', coerce=int,
+        choices=[(1,'Every day'), (2,'A few times a week'), (3, 'A few times a month'), (4, 'A few times a year'), (5, 'Never')
+        ])
+
+class HiddenFields(FlaskForm):
     id_field = HiddenField()
     updated = HiddenField()
 
 class ReCaptcha(FlaskForm):
-    recaptcha = RecaptchaField(validators=[Recaptcha('Please comfirm you are human')])
+    recaptcha = RecaptchaField(validators=[Recaptcha()])
+
+class SubmitForm(FlaskForm):
     submit = SubmitField('Submit Answers')
-
-class ViewRecord(FlaskForm):
-    id_field = StringField('ID', validators=[InputRequired()])
-    submit = SubmitField('Submit ID')
-
-    def validate_id(form, field):
-        if len(field.data) > 53 and len(field.data) < 53:
-            raise ValidationError('ID must be 50 characters')
 
 # +++++++++++++++++++++++
 # get local date - does not account for time zone
@@ -232,12 +281,10 @@ def stringdate():
     date_list = date_list + date_list[2].split(' ')
     # build string in format 01-01-2000
     date_string = date_list[1] + "/" + date_list[3] + "/" + date_list[0]
-    print (date_list)
     return date_string
 
 def genID():
     uniqueID = datetime.now().strftime('%Y%m-%d%H-%M%S-') + str(uuid4())
-
     return uniqueID
 
 # +++++++++++++++++++++++
@@ -248,37 +295,75 @@ def index():
     # get a list of unique values in the style column
     return render_template('index.html')
 
-# select a record to edit or delete
-@app.route('/select_record', methods=['GET', 'POST'])
-def select_record():
-    form1 = ViewRecord()
-
-    if form1.is_submitted():
-        id = request.form['id_field']
-        questions = Questions.query.filter(Questions.id == id).first()
-    else:
-        return render_template('select_record.html', form1=form1)
-    
-    return render_template('select_record.html', form1=form1, questions=questions, id=id)
-
 # add a new sock to the database
 @app.route('/add_record', methods=['GET', 'POST'])
 def add_record():
-    form1 = AddRecord()
-    form2 = ReCaptcha()
+    form1 = Region()
+    form2 = Grades()
+    form3 = SchoolType()
+    form4 = SchoolSent()
+    form5 = SchoolBeh()
+    form6 = FamilyDem()
+    form7 = Enrichment()
+    form8 = Technology()
+    form9 = HiddenFields()
+    form10 = ReCaptcha()
+    form11 = SubmitForm()
 
-    if form1.validate_on_submit() and form2.validate_on_submit():
+    if (form1.validate_on_submit() and form2.validate_on_submit() and form2.validate_on_submit()
+        and form4.validate_on_submit() and form5.validate_on_submit() and form6.validate_on_submit()
+        and form7.validate_on_submit() and form8.validate_on_submit() and form9.validate_on_submit()
+        and form10.validate_on_submit() and form11.validate_on_submit()):
+
         ALLGRADEX = request.form['ALLGRADEX']
         SEGRADES = request.form['SEGRADES']
         CENREG = request.form['CENREG']
-        SCH_TYPE = request.form['SCH_TYPE']
-        # FOREADTOX = request.form['FOREADTOX']
-        # FORDDAYX = request.form['FORDDAYX']
+        FOCONCRTX = request.form['FOCONCRTX']
+        FOBOOKSTX = request.form['FOBOOKSTX']
+        FOGAMES = request.form['FOGAMES']
+        FOLIBRAYX = request.form['FOLIBRAYX']
+        FOMUSEUMX = request.form['FOMUSEUMX']
+        FOSTORY2X = request.form['FOSTORY2X']
+        FORESPON = request.form['FORESPON']
+        CSPEAKX = request.form['CSPEAKX']
+        FOHISTX = request.form['FOHISTX']
+        HHENGLISH = request.form['HHENGLISH']
+        HHPRTNRSX = request.form['HHPRTNRSX']
+        HHTOTALXX = request.form['HHTOTALXX']
+        NUMSIBSX = request.form['NUMSIBSX']
+        OWNRNTHB = request.form['OWNRNTHB']
+        P1REL = request.form['P1REL']
+        P2AGE = request.form['P2AGE']
+        P2MRSTA = request.form['P2MRSTA']
+        P2REL = request.form['P2REL']
+        P2SEX = request.form['P2SEX']
+        PAR1EMPL = request.form['PAR1EMPL']
+        PAR1FTFY = request.form['PAR1FTFY']
+        TTLHHINC = request.form['TTLHHINC']
+        FHHOME = request.form['FHHOME']
+        FHWKHRS = request.form['FHWKHRS']
+        SEABSNT = request.form['SEABSNT']
+        FCSCHOOL = request.form['FCSCHOOL']
+        FCSTDS = request.form['FCSTDS']
+        FCTEACHR = request.form['FCTEACHR']
+        SEENJOY = request.form['SEENJOY']
+        DISTASSI = request.form['DISTASSI']
+        SCHLMAGNET = request.form['SCHLMAGNET']
+        SCHRTSCHL = request.form['SCHRTSCHL']
+        CHLDNT = request.form['CHLDNT']
+        INTACC = request.form['INTACC']
+        LRNCELL = request.form['LRNCELL']
+
+
         # get today's date from function, above all the routes
         id = genID()
         updated = stringdate()
         # the data to be inserted into page
-        record = Questions(id, updated, ALLGRADEX, SEGRADES, CENREG, SCH_TYPE)#, FODINNERX, FOREADTOX, FORDDAYX, updated)
+        record = Questions(id,updated, CENREG, ALLGRADEX, SEGRADES, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
+                FOSTORY2X, FORESPON, CSPEAKX, FOHISTX, HHENGLISH, HHPRTNRSX, HHTOTALXX,
+                NUMSIBSX, OWNRNTHB, P1REL, P2AGE, P2MRSTA, P2REL, P2SEX, PAR1EMPL, PAR1FTFY,
+                TTLHHINC, FHHOME, FHWKHRS, SEABSNT, FCSCHOOL, FCSTDS, FCTEACHR,
+                SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC, LRNCELL)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
@@ -290,44 +375,23 @@ def add_record():
         # see https://pythonprogramming.net/flash-flask-tutorial/
         for field, errors in form1.errors.items():
             for error in errors:
-                flash("Error in {}: {}".format(
+                flash("Error in {}: {} - {}".format(
                     getattr(form1, field).label.text,
-                    error
+                    error, getattr(form1, field).data
                 ), 'error')
-        return render_template('add_record.html', form1=form1, form2=form2)
-
-# result of edit - this function updates the record
-@app.route('/edit_result', methods=['POST'])
-def edit_result():
-    form1 = ViewRecord()
-    id = request.form['id_field']
-    # call up the record from the database
-    questions = Questions.query.filter(Questions.id == id).first()
-    # update all values
-    ALLGRADEX = request.form['ALLGRADEX']
-    SEGRADES = request.form['SEGRADES']
-    CENREG = request.form['CENREG']
-    # get today's date from function, above all the routes
-    questions.updated = stringdate()
-
-    form1 = AddRecord()
-    if form1.validate_on_submit():
-        # update database record
-        db.session.commit()
-        # create a message to send to the template
-        message = f"Your answers have been updated."
-        return render_template('result.html', message=message)
-    else:
-        # show validaton errors
-        questions.id = id
-        # see https://pythonprogramming.net/flash-flask-tutorial/
-        for field, errors in form1.errors.items():
+        for field, errors in form2.errors.items():
             for error in errors:
-                flash("Error in {}: {}".format(
-                    getattr(form1, field).label.text,
-                    error
+                flash("Error in {}: {} - {}".format(
+                    getattr(form2, field).label.text,
+                    error, getattr(form2, field).data
                 ), 'error')
-        return render_template('edit_or_delete.html', form1=form1, questions=questions, choice='edit')
+        for field, errors in form3.errors.items():
+            for error in errors:
+                flash("Error in {}: {} - {}".format(
+                    getattr(form3, field).label.text,
+                    error, getattr(form3, field).data
+                ), 'error')
+        return render_template('add_record.html', form1=form1, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7, form8=form8, form9=form9, form10=form10, form11=form11)
 
 
 # +++++++++++++++++++++++
