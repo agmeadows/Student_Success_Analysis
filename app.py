@@ -1,10 +1,9 @@
-from msilib.schema import CheckBox
 from flask import Flask, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm, RecaptchaField, Recaptcha
 from wtforms import SubmitField, SelectField, HiddenField, IntegerField
-from wtforms.validators import InputRequired, NumberRange, ValidationError
+from wtforms.validators import InputRequired, NumberRange
 
 from datetime import datetime
 from uuid import uuid4
