@@ -133,22 +133,18 @@ Student Success Survey Questions
 						{% for f in form5 %}
 							{{ render_field(f) }}
 						{% endfor %}
-						<legend>Family Demographics</legend><br>
+						<legend>Enrichment Activities</legend><br>
 						{% for f in form6 %}
 							{{ render_field(f) }}
 						{% endfor %}
-						<legend>Enrichment Activities</legend><br>
+						<legend>Technology</legend><br>
 						{% for f in form7 %}
 							{{ render_field(f) }}
 						{% endfor %}
-						<legend>Technology</legend><br>
 						{% for f in form8 %}
 							{{ render_field(f) }}
 						{% endfor %}
 						{% for f in form9 %}
-							{{ render_field(f) }}
-						{% endfor %}
-						{% for f in form10 %}
 							{{ render_field(f) }}
 						{% endfor %}
 					{%- endmacro %}
@@ -157,7 +153,7 @@ Student Success Survey Questions
 					<fieldset class="group">
 						<ul class="field">
 							{{ render_form(form) }}
-							{{ wtf.quick_form(form11) }}
+							{{ wtf.quick_form(form10) }}
 						</ul>
 					</fieldset>
 				{% endif %}

@@ -50,7 +50,6 @@ class Questions(db.Model):
     SCHLMAGNET = db.Column(db.Integer)
     SEENJOY = db.Column(db.Integer)
     SEABSNT = db.Column(db.Integer)
-    FCSCHOOL = db.Column(db.Integer)
     FCTEACHR = db.Column(db.Integer)
     FCSTDS = db.Column(db.Integer)
     FHHOME = db.Column(db.Integer)
@@ -63,27 +62,25 @@ class Questions(db.Model):
     FOBOOKSTX = db.Column(db.Integer)
     FOCONCRTX = db.Column(db.Integer)
     FOMUSEUMX = db.Column(db.Integer)
-    HHENGLISH = db.Column(db.Integer)
-    CSPEAKX = db.Column(db.Integer)
-    HHTOTALXX = db.Column(db.Integer)
-    HHPRTNRSX = db.Column(db.Integer)
-    P1REL = db.Column(db.Integer)
-    P2AGE = db.Column(db.Integer)
-    P2REL = db.Column(db.Integer)
-    P2SEX = db.Column(db.Integer)
-    P2MRSTA = db.Column(db.Integer)
-    PAR1EMPL = db.Column(db.Integer)
-    PAR1FTFY = db.Column(db.Integer)
-    NUMSIBSX = db.Column(db.Integer)
-    TTLHHINC = db.Column(db.Integer)
-    OWNRNTHB = db.Column(db.Integer)
+    # HHENGLISH = db.Column(db.Integer)
+    # CSPEAKX = db.Column(db.Integer)
+    # HHTOTALXX = db.Column(db.Integer)
+    # HHPRTNRSX = db.Column(db.Integer)
+    # P1REL = db.Column(db.Integer)
+    # P2AGE = db.Column(db.Integer)
+    # P2REL = db.Column(db.Integer)
+    # P2SEX = db.Column(db.Integer)
+    # P2MRSTA = db.Column(db.Integer)
+    # PAR1EMPL = db.Column(db.Integer)
+    # PAR1FTFY = db.Column(db.Integer)
+    # NUMSIBSX = db.Column(db.Integer)
+    # TTLHHINC = db.Column(db.Integer)
+    # OWNRNTHB = db.Column(db.Integer)
     CHLDNT = db.Column(db.Integer)
     LRNCELL = db.Column(db.Integer)
 
-    def __init__(self,id,updated, ALLGRADEX, SEGRADES, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
-                FOSTORY2X, FORESPON, CSPEAKX, FOHISTX, HHENGLISH, HHPRTNRSX, HHTOTALXX,
-                NUMSIBSX, OWNRNTHB, P1REL, P2AGE, P2MRSTA, P2REL, P2SEX, PAR1EMPL, PAR1FTFY,
-                TTLHHINC, CENREG, FHHOME, FHWKHRS, SEABSNT, FCSCHOOL, FCSTDS, FCTEACHR,
+    def __init__(self,id,updated, ALLGRADEX, SEGRADES, CENREG, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
+                FOSTORY2X, FORESPON, FOHISTX, FHHOME, FHWKHRS, SEABSNT, FCSTDS, FCTEACHR,
                 SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC, LRNCELL
                 ):      
         self.id = id
@@ -96,7 +93,6 @@ class Questions(db.Model):
         self.SCHLMAGNET = SCHLMAGNET
         self.SEENJOY = SEENJOY
         self.SEABSNT = SEABSNT
-        self.FCSCHOOL = FCSCHOOL
         self.FCTEACHR = FCTEACHR
         self.FCSTDS = FCSTDS
         self.FHHOME = FHHOME
@@ -109,20 +105,20 @@ class Questions(db.Model):
         self.FOBOOKSTX = FOBOOKSTX
         self.FOCONCRTX = FOCONCRTX
         self.FOMUSEUMX = FOMUSEUMX
-        self.HHENGLISH = HHENGLISH
-        self.CSPEAKX = CSPEAKX
-        self.HHTOTALXX = HHTOTALXX
-        self.HHPRTNRSX = HHPRTNRSX
-        self.P1REL = P1REL
-        self.P2AGE = P2AGE
-        self.P2REL = P2REL
-        self.P2SEX = P2SEX
-        self.P2MRSTA = P2MRSTA
-        self.PAR1EMPL = PAR1EMPL
-        self.PAR1FTFY = PAR1FTFY
-        self.NUMSIBSX = NUMSIBSX
-        self.TTLHHINC = TTLHHINC
-        self.OWNRNTHB = OWNRNTHB
+        # self.HHENGLISH = HHENGLISH
+        # self.CSPEAKX = CSPEAKX
+        # self.HHTOTALXX = HHTOTALXX
+        # self.HHPRTNRSX = HHPRTNRSX
+        # self.P1REL = P1REL
+        # self.P2AGE = P2AGE
+        # self.P2REL = P2REL
+        # self.P2SEX = P2SEX
+        # self.P2MRSTA = P2MRSTA
+        # self.PAR1EMPL = PAR1EMPL
+        # self.PAR1FTFY = PAR1FTFY
+        # self.NUMSIBSX = NUMSIBSX
+        # self.TTLHHINC = TTLHHINC
+        # self.OWNRNTHB = OWNRNTHB
         self.INTACC = INTACC
         self.CHLDNT = CHLDNT
         self.LRNCELL = LRNCELL
@@ -159,9 +155,6 @@ class SchoolSent(FlaskForm):
     FCSCHOOL = SelectField('How satisfied are you with the school your child attends?', coerce=int,
         choices=[(1,'Very satisfied'), (2,'Somewhat satisfied'), (3,'Somewhat dissatisfied'), (4,'Very dissatisfied')
         ])
-    FCTEACHR = SelectField('How satisfied are you with the school\'s teachers?', coerce=int,
-        choices=[(1,'Very satisfied'), (2,'Somewhat satisfied'), (3,'Somewhat dissatisfied'), (4,'Very dissatisfied')
-        ])
     FCSTDS = SelectField('How satisfied are you with the school\'s academic standards?', coerce=int,
         choices=[(1,'Very satisfied'), (2,'Somewhat satisfied'), (3,'Somewhat dissatisfied'), (4,'Very dissatisfied')
         ])
@@ -180,49 +173,49 @@ class SchoolBeh(FlaskForm):
         choices=[(1,'Less than once a week'), (2,'1 to 2 days a week'), (3,'3 to 4 days a week'), (4,'5 or more days a week'), (5,'Never')
         ])
 
-class FamilyDem(FlaskForm):
-    PAR1EMPL = SelectField('What is your current work status?', coerce=int,
-        choices=[(1,'Work 35+ hours per week'), (2,'Work less than 35 hours per week'), (3,'Looking for work'), (4,'Not in the labor force')
-        ])
-    PAR1FTFY = SelectField('Do you work full-time?', coerce=int,
-        choices=[(1,'Full time and full year'), (2,'Less than full time or less than full year'), (3,'Not employed during the past year')
-        ])
-    P1REL = SelectField('What is your relationship to the child?', coerce=int,
-        choices=[(1,'Biological parent'), (2,'Adoptive parent'), (3,'Stepparent'), (4,'Foster parent'), (5,'Grandparent'), (6,'Other guardian')
-        ])
-    P2REL = SelectField('What is your partner\'s relationship to the child?', coerce=int,
-        choices=[(1,'Biological parent'), (2,'Adoptive parent'), (3,'Stepparent'), (4,'Foster parent'), (5,'Grandparent'), (6,'Other guardian')
-        ])
-    P2SEX = SelectField('What is the sex of the child\'s second parent?', coerce=int,
-        choices=[(1,'Male'), (2,'Female')
-        ])
-    P2AGE = SelectField('How old is the child\'s second parent or guardian?', coerce=int,
-        choices=[(1,'0 - 20'), (2,'20 - 40'), (3,'40 - 60'), (4,'60 - 80'), (5,'80 - 100')
-        ])
-    P2MRSTA = SelectField('What is the child\'s second partner or guardian\'s current marital status?', coerce=int,
-        choices=[(1,'Now married'), (2,'Widowed'), (3,'Divorced'), (4,'Separated'), (5,'Never married')
-        ])
-    HHTOTALXX = IntegerField('Including children, how many people live in live in this household?', [ InputRequired(),
-        NumberRange(min=1, max=10, message="Invalid range, enter a number between 1 and 10")
-        ])
-    NUMSIBSX = IntegerField('How many siblings does your child have?', [ InputRequired(),
-        NumberRange(min=0, max=10, message="Invalid range, enter a number between 1 and 10")
-        ])
-    HHENGLISH = SelectField('Do you speak English at home?', coerce=int,
-        choices=[(1,'Yes'), (2,'No')
-        ])
-    CSPEAKX = SelectField('What is the Language spoken by the child at home?', coerce=int,
-        choices=[(1,'English'), (2,'Spanish'), (3,'English and Spanish equally'), (4,'A language other than English and Spanish'), (5,'English and another language equally')
-        ])
-    HHPRTNRSX = SelectField('Does your girlfriend/boyfriend/partner live in the household with this child?', coerce=int,
-        choices=[(1,'Yes'), (2,'No')
-        ])
-    OWNRNTHB = SelectField('Do you own or rent your household?', coerce=int,
-        choices=[(1,'Yes'), (2,'No')
-        ])
-    TTLHHINC = SelectField('Which category best fits the total income of all persons in you household over the past 12 months', coerce=int,
-        choices=[(1,'$0 - $40,000'), (2,'$40,001 - $100,000'), (3,'$100,001 - $200,000'), (4,'200,001 - $250,000+')
-        ])
+# class FamilyDem(FlaskForm):
+#     PAR1EMPL = SelectField('What is your current work status?', coerce=int,
+#         choices=[(1,'Work 35+ hours per week'), (2,'Work less than 35 hours per week'), (3,'Looking for work'), (4,'Not in the labor force')
+#         ])
+#     PAR1FTFY = SelectField('Do you work full-time?', coerce=int,
+#         choices=[(1,'Full time and full year'), (2,'Less than full time or less than full year'), (3,'Not employed during the past year')
+#         ])
+#     P1REL = SelectField('What is your relationship to the child?', coerce=int,
+#         choices=[(1,'Biological parent'), (2,'Adoptive parent'), (3,'Stepparent'), (4,'Foster parent'), (5,'Grandparent'), (6,'Other guardian')
+#         ])
+#     P2REL = SelectField('What is your partner\'s relationship to the child?', coerce=int,
+#         choices=[(1,'Biological parent'), (2,'Adoptive parent'), (3,'Stepparent'), (4,'Foster parent'), (5,'Grandparent'), (6,'Other guardian')
+#         ])
+#     P2SEX = SelectField('What is the sex of the child\'s second parent?', coerce=int,
+#         choices=[(1,'Male'), (2,'Female')
+#         ])
+#     P2AGE = SelectField('How old is the child\'s second parent or guardian?', coerce=int,
+#         choices=[(1,'0 - 20'), (2,'20 - 40'), (3,'40 - 60'), (4,'60 - 80'), (5,'80 - 100')
+#         ])
+#     P2MRSTA = SelectField('What is the child\'s second partner or guardian\'s current marital status?', coerce=int,
+#         choices=[(1,'Now married'), (2,'Widowed'), (3,'Divorced'), (4,'Separated'), (5,'Never married')
+#         ])
+#     HHTOTALXX = IntegerField('Including children, how many people live in live in this household?', [ InputRequired(),
+#         NumberRange(min=1, max=10, message="Invalid range, enter a number between 1 and 10")
+#         ])
+#     NUMSIBSX = IntegerField('How many siblings does your child have?', [ InputRequired(),
+#         NumberRange(min=0, max=10, message="Invalid range, enter a number between 1 and 10")
+#         ])
+#     HHENGLISH = SelectField('Do you speak English at home?', coerce=int,
+#         choices=[(1,'Yes'), (2,'No')
+#         ])
+#     CSPEAKX = SelectField('What is the Language spoken by the child at home?', coerce=int,
+#         choices=[(1,'English'), (2,'Spanish'), (3,'English and Spanish equally'), (4,'A language other than English and Spanish'), (5,'English and another language equally')
+#         ])
+#     HHPRTNRSX = SelectField('Does your girlfriend/boyfriend/partner live in the household with this child?', coerce=int,
+#         choices=[(1,'Yes'), (2,'No')
+#         ])
+#     OWNRNTHB = SelectField('Do you own or rent your household?', coerce=int,
+#         choices=[(1,'Yes'), (2,'No')
+#         ])
+#     TTLHHINC = SelectField('Which category best fits the total income of all persons in you household over the past 12 months', coerce=int,
+#         choices=[(1,'$0 - $40,000'), (2,'$40,001 - $100,000'), (3,'$100,001 - $200,000'), (4,'200,001 - $250,000+')
+#         ])
 
 class Enrichment(FlaskForm):
     FORESPON = SelectField('In the past month, have you or someone in your family discussed with him or her how to manage time?', coerce=int,
@@ -302,17 +295,16 @@ def add_record():
     form3 = SchoolType()
     form4 = SchoolSent()
     form5 = SchoolBeh()
-    form6 = FamilyDem()
-    form7 = Enrichment()
-    form8 = Technology()
-    form9 = HiddenFields()
-    form10 = ReCaptcha()
-    form11 = SubmitForm()
+    form6 = Enrichment()
+    form7 = Technology()
+    form8 = HiddenFields()
+    form9 = ReCaptcha()
+    form10 = SubmitForm()
 
     if (form1.validate_on_submit() and form2.validate_on_submit() and form2.validate_on_submit()
         and form4.validate_on_submit() and form5.validate_on_submit() and form6.validate_on_submit()
         and form7.validate_on_submit() and form8.validate_on_submit() and form9.validate_on_submit()
-        and form10.validate_on_submit() and form11.validate_on_submit()):
+        and form10.validate_on_submit()):
 
         ALLGRADEX = request.form['ALLGRADEX']
         SEGRADES = request.form['SEGRADES']
@@ -324,25 +316,25 @@ def add_record():
         FOMUSEUMX = request.form['FOMUSEUMX']
         FOSTORY2X = request.form['FOSTORY2X']
         FORESPON = request.form['FORESPON']
-        CSPEAKX = request.form['CSPEAKX']
         FOHISTX = request.form['FOHISTX']
-        HHENGLISH = request.form['HHENGLISH']
-        HHPRTNRSX = request.form['HHPRTNRSX']
-        HHTOTALXX = request.form['HHTOTALXX']
-        NUMSIBSX = request.form['NUMSIBSX']
-        OWNRNTHB = request.form['OWNRNTHB']
-        P1REL = request.form['P1REL']
-        P2AGE = request.form['P2AGE']
-        P2MRSTA = request.form['P2MRSTA']
-        P2REL = request.form['P2REL']
-        P2SEX = request.form['P2SEX']
-        PAR1EMPL = request.form['PAR1EMPL']
-        PAR1FTFY = request.form['PAR1FTFY']
-        TTLHHINC = request.form['TTLHHINC']
+        # CSPEAKX = request.form['CSPEAKX']
+        # HHENGLISH = request.form['HHENGLISH']
+        # HHPRTNRSX = request.form['HHPRTNRSX']
+        # HHTOTALXX = request.form['HHTOTALXX']
+        # NUMSIBSX = request.form['NUMSIBSX']
+        # OWNRNTHB = request.form['OWNRNTHB']
+        # P1REL = request.form['P1REL']
+        # P2AGE = request.form['P2AGE']
+        # P2MRSTA = request.form['P2MRSTA']
+        # P2REL = request.form['P2REL']
+        # P2SEX = request.form['P2SEX']
+        # PAR1EMPL = request.form['PAR1EMPL']
+        # PAR1FTFY = request.form['PAR1FTFY']
+        # TTLHHINC = request.form['TTLHHINC']
         FHHOME = request.form['FHHOME']
         FHWKHRS = request.form['FHWKHRS']
         SEABSNT = request.form['SEABSNT']
-        FCSCHOOL = request.form['FCSCHOOL']
+        # FCSCHOOL = request.form['FCSCHOOL']
         FCSTDS = request.form['FCSTDS']
         FCTEACHR = request.form['FCTEACHR']
         SEENJOY = request.form['SEENJOY']
@@ -359,9 +351,7 @@ def add_record():
         updated = stringdate()
         # the data to be inserted into page
         record = Questions(id,updated, CENREG, ALLGRADEX, SEGRADES, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
-                FOSTORY2X, FORESPON, CSPEAKX, FOHISTX, HHENGLISH, HHPRTNRSX, HHTOTALXX,
-                NUMSIBSX, OWNRNTHB, P1REL, P2AGE, P2MRSTA, P2REL, P2SEX, PAR1EMPL, PAR1FTFY,
-                TTLHHINC, FHHOME, FHWKHRS, SEABSNT, FCSCHOOL, FCSTDS, FCTEACHR,
+                FOSTORY2X, FORESPON, FOHISTX, FHHOME, FHWKHRS, SEABSNT, FCSTDS, FCTEACHR,
                 SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC, LRNCELL)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
@@ -390,7 +380,7 @@ def add_record():
                     getattr(form3, field).label.text,
                     error, getattr(form3, field).data
                 ), 'error')
-        return render_template('add_record.html', form1=form1, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7, form8=form8, form9=form9, form10=form10, form11=form11)
+        return render_template('add_record.html', form1=form1, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7, form8=form8, form9=form9, form10=form10)
 
 
 # +++++++++++++++++++++++
