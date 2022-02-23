@@ -110,10 +110,15 @@ CREATE TABLE "Features" (
 );
 
 CREATE TABLE "Resources" (
-	"id" varchar   NOT NULL,
+	"id" SERIAL   PRIMARY KEY,
 	"RESOURCE" text   NOT NULL,
 	"GROUP" text   NOT NULL,
 	"DESC" text   NOT NULL
 );
 
-
+CREATE TABLE "Users" (
+	"id" SERIAL   PRIMARY KEY,
+	"username" text   NOT NULL,
+	"email" text   NOT NULL,
+	"password_hash" text   NOT NULL
+);
