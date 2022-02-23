@@ -17,6 +17,10 @@
     <link href="narrow-jumbotron.css" rel="stylesheet">
 </head>
 
+{% block title %}
+Student Success Analysis
+{% endblock %}
+
 {% block content %}
   <body>
 
@@ -30,6 +34,18 @@
             <li class="nav-item">
               <a class="nav-link" href="mailto:dreamteamanalytics@gmail.com">Contact</a>
             </li>
+            {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="logout">Logout</a>
+              </li>
+			        <li class="nav-item">
+				        <a class="nav-link" href="add_resource">Add Resource</a>
+			        </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="login">Login</a>
+              </li>
+            {% endif %}
           </ul>
         </nav>
       </div>

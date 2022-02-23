@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, flash
-from flask_login import LoginManager
+from flask import Flask, render_template, request, flash, redirect, url_for
+from flask_login import LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm, RecaptchaField, Recaptcha
 from flask_login import current_user, login_user
-from wtforms import SubmitField, SelectField, HiddenField, IntegerField, TextField
-from wtforms.validators import InputRequired, NumberRange
+from wtforms import SubmitField, SelectField, HiddenField, IntegerField, TextField, StringField, BooleanField, PasswordField
+from wtforms.validators import InputRequired, NumberRange, DataRequired, ValidationError, Email, EqualTo
 from datetime import datetime
 from uuid import uuid4
 
@@ -15,6 +15,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 db = SQLAlchemy(app)
 login = LoginManager(app)
+login.login_view = 'login'
 
 # Flask-WTF requires an enryption key - the string can be anything
 app.config['SECRET_KEY'] = 'MLXH243Gh3JD281skdN17FDhdwYF56wPj8'
@@ -42,11 +43,11 @@ app.config['RECAPTCHA_PRIVATE_KEY'] = '6LeJQngeAAAAAIheQ_SdVALaVAfxQ9K_OVUoQJh7'
 app.config['RECAPTCHA_OPTIONS'] = {'theme': 'white'}
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'Users'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -57,14 +58,14 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+# class Post(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     body = db.Column(db.String(140))
+#     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
-        return '<Post {}>'.format(self.body)
+#     def __repr__(self):
+#         return '<Post {}>'.format(self.body)
 
 # each table in the database needs a class to be created for it
 # db.Model is required - don't change it
@@ -133,9 +134,8 @@ class Resources(db.Model):
     GROUP = db.Column(db.Text)
     DESC = db.Column(db.Text)
 
-    def __init__(self, id, RESOURCE, GROUP, DESC
+    def __init__(self, RESOURCE, GROUP, DESC
             ):
-        self.id = id
         self.RESOURCE = RESOURCE
         self.GROUP = GROUP
         self.DESC = DESC
@@ -241,6 +241,31 @@ class AddResource(FlaskForm):
     RESOURCE = TextField('Enter URL', [ InputRequired()])
     GROUP = TextField('Enter Group', [ InputRequired()])
     DESC = TextField('Enter a Brief Description', [ InputRequired()])
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
+
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different username.')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different email address.')
 
 # +++++++++++++++++++++++
 # get local date - does not account for time zone
@@ -348,6 +373,7 @@ def add_record():
                 ), 'error')
         return render_template('add_record.html', form1=form1, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7, form8=form8, form9=form9, form10=form10)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -359,10 +385,32 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('index'))
+        logged_in = form.username.data
+        return redirect(url_for('index', logged_in=logged_in))
     return render_template('login.html', title='Sign In', form=form)
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('index'))
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         user = User(username=form.username.data, email=form.email.data)
+#         user.set_password(form.password.data)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash('Congratulations, you are now a registered user!')
+#         return redirect(url_for('login'))
+#     return render_template('register.html', title='Register', form=form)
+
 @app.route('/add_resource', methods=['GET', 'POST'])
+@login_required
 def add_resource():
     form1 = AddResource()
     form2 = SubmitForm()
@@ -372,9 +420,7 @@ def add_resource():
         GROUP = request.form['GROUP']
         DESC = request.form['DESC']
 
-        id = genID()
-
-        record = Resources(id, RESOURCE, GROUP, DESC)
+        record = Resources(RESOURCE, GROUP, DESC)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
