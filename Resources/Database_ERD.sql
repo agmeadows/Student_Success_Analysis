@@ -109,3 +109,11 @@ CREATE TABLE "Features" (
 	"group" text   NOT NULL
 );
 
+CREATE TABLE "Resources" (
+	"id" varchar   NOT NULL,
+	"RESOURCE" text   NOT NULL,
+	"GROUP" text   NOT NULL,
+	"DESC" text   NOT NULL
+);
+
+
