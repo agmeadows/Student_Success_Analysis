@@ -1,32 +1,70 @@
 {% extends 'bootstrap/base.html' %}
 
-{% block styles %}
-{{ super() }}
-	<style>
-		body { background: #e8f1f9; }
-	</style>
-{% endblock %}
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
 
-{% block title %}
-Student Success Survey
-{% endblock %}
+    <title>Student Success Analysis</title>
 
+    <!-- Bootstrap core CSS -->
+    <link href="../../css/editor.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+</head>
 
 {% block content %}
+  <body>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+    <div class="container" style="width: auto;">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link active btn-dark" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-      <h1 class="pt-5 pb-2">Welcome to the Student Success Survey</h1>
+      <div class="jumbotron" style="width: auto;">
+        
+        <h1 class="title" spellcheckker="false" style="text-align: center; font-weight: 700; font-family: Georgia, serif; width: 100%;" contenteditable="true">Student Success Survey<br></h1><p class="lead"></p><hr style="text-decoration-line: none;"><div>Due to recent events, student success has never been more in the spotlight than now. With remote learning, class size restrictions and even economic burdens, parents and students alike need to find new ways to succeed.</div><div><br></div><div spellcheckker="false" contenteditable="true">The purpose of this page is to help parents to find resources that may help enhance their child's success. This is done through analyzing the answers to 20 submitted questions. These questions are derived from the <b>National Household Education Surveys Program.</b> Each of these questions, through the use of machine learning, have been proven to significantly impact student success. To answer the questions and receive custom recommendations, please click the button below:<br></div><p></p>
+        <div class="text-center">
+          <p><a class="btn btn-lg btn-dark" href="add_record" role="button" style="float: none; text-align: center; position: relative; opacity: 1; " id="submit">Submit Answers</a></p>
+        </div>
+      </div>
 
-      <p class="lead">Here you can submit your answers to the questions from the NHES survey. You will be provided with an analysis of your student's predicted success.</p>
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4 spellcheckker="false" contenteditable="true">Subheading<br></h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+        </div>
 
-	  <!-- links -->
-	  <p>You can <a href="{{ url_for('add_record') }}">Submit your answers</a>.</p>
+        <div class="col-lg-6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+        </div>
+      </div>
 
-    </div>
-  </div>
-</div>
+      <footer class="footer">
+        <p>© Dream Team Analytics 2022<br></p>
+      </footer>
+
+    </div> <!-- /container -->
+  
+
+</body>
+</html>
 
 {% endblock %}
