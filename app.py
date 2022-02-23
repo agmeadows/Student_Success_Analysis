@@ -1,14 +1,20 @@
 from flask import Flask, render_template, request, flash
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm, RecaptchaField, Recaptcha
-from wtforms import SubmitField, SelectField, HiddenField, IntegerField
+from flask_login import current_user, login_user
+from wtforms import SubmitField, SelectField, HiddenField, IntegerField, TextField
 from wtforms.validators import InputRequired, NumberRange
-
 from datetime import datetime
 from uuid import uuid4
 
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
 app = Flask(__name__)
+db = SQLAlchemy(app)
+login = LoginManager(app)
 
 # Flask-WTF requires an enryption key - the string can be anything
 app.config['SECRET_KEY'] = 'MLXH243Gh3JD281skdN17FDhdwYF56wPj8'
@@ -35,12 +41,37 @@ app.config['RECAPTCHA_PUBLIC_KEY'] = '6LeJQngeAAAAAPb66gTSi69KL6JvhCJmfpyj6tIE'
 app.config['RECAPTCHA_PRIVATE_KEY'] = '6LeJQngeAAAAAIheQ_SdVALaVAfxQ9K_OVUoQJh7'
 app.config['RECAPTCHA_OPTIONS'] = {'theme': 'white'}
 
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
+    password_hash = db.Column(db.String(128))
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String(140))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Post {}>'.format(self.body)
+
 # each table in the database needs a class to be created for it
 # db.Model is required - don't change it
 # identify all columns by name and data type
 class Questions(db.Model):
     __tablename__ = 'Surveys'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Text, primary_key=True)
     updated = db.Column(db.Date)
     ALLGRADEX = db.Column(db.Integer)
     SEGRADES = db.Column(db.Integer)
@@ -65,10 +96,10 @@ class Questions(db.Model):
     CHLDNT = db.Column(db.Integer)
     LRNCELL = db.Column(db.Integer)
 
-    def __init__(self,id,updated, ALLGRADEX, SEGRADES, CENREG, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
-                FOSTORY2X, FORESPON, FOHISTX, FHHOME, FHWKHRS, SEABSNT, FCSTDS, FCTEACHR,
-                SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC, LRNCELL
-                ):      
+    def __init__(self, id, updated, ALLGRADEX, SEGRADES, CENREG, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
+            FOSTORY2X, FORESPON, FOHISTX, FHHOME, FHWKHRS, SEABSNT, FCSTDS, FCTEACHR,
+            SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC, LRNCELL
+            ):      
         self.id = id
         self.updated = updated
         self.ALLGRADEX = ALLGRADEX
@@ -94,6 +125,20 @@ class Questions(db.Model):
         self.INTACC = INTACC
         self.CHLDNT = CHLDNT
         self.LRNCELL = LRNCELL
+
+class Resources(db.Model):
+    __tablename__ = 'Resources'
+    id = db.Column(db.Integer, primary_key=True)
+    RESOURCE = db.Column(db.Text)
+    GROUP = db.Column(db.Text)
+    DESC = db.Column(db.Text)
+
+    def __init__(self, id, RESOURCE, GROUP, DESC
+            ):
+        self.id = id
+        self.RESOURCE = RESOURCE
+        self.GROUP = GROUP
+        self.DESC = DESC
 
 class Region(FlaskForm):
     # id used only by update/edit
@@ -192,6 +237,11 @@ class ReCaptcha(FlaskForm):
 class SubmitForm(FlaskForm):
     submit = SubmitField('Submit Answers')
 
+class AddResource(FlaskForm):
+    RESOURCE = TextField('Enter URL', [ InputRequired()])
+    GROUP = TextField('Enter Group', [ InputRequired()])
+    DESC = TextField('Enter a Brief Description', [ InputRequired()])
+
 # +++++++++++++++++++++++
 # get local date - does not account for time zone
 # note: date was imported at top of script
@@ -209,6 +259,10 @@ def genID():
 
 # +++++++++++++++++++++++
 # routes
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 @app.route('/')
 def index():
@@ -293,6 +347,52 @@ def add_record():
                     error, getattr(form3, field).data
                 ), 'error')
         return render_template('add_record.html', form1=form1, form2=form2, form3=form3, form4=form4, form5=form5, form6=form6, form7=form7, form8=form8, form9=form9, form10=form10)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        return redirect(url_for('index'))
+    return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/add_resource', methods=['GET', 'POST'])
+def add_resource():
+    form1 = AddResource()
+    form2 = SubmitForm()
+
+    if (form1.validate_on_submit()):
+        RESOURCE = request.form['RESOURCE']
+        GROUP = request.form['GROUP']
+        DESC = request.form['DESC']
+
+        id = genID()
+
+        record = Resources(id, RESOURCE, GROUP, DESC)
+        # Flask-SQLAlchemy magic adds record to database
+        db.session.add(record)
+        db.session.commit()
+
+        # create a message to send to the template
+        message = f"The URL has been submitted."
+        return render_template('add_resource.html', message=message, form2=form2)
+
+    else:
+        # show validaton errors
+        # see https://pythonprogramming.net/flash-flask-tutorial/
+        for field, errors in form1.errors.items():
+            for error in errors:
+                flash("Error in {}: {} - {}".format(
+                    getattr(form1, field).label.text,
+                    error, getattr(form1, field).data
+                ), 'error')
+        return render_template('add_resource.html', form1=form1, form2=form2)
 
 
 # +++++++++++++++++++++++
