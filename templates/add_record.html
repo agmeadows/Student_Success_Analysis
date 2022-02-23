@@ -2,12 +2,27 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% from "macros.html" import render_field %}
 
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Student Success Analysis</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../css/editor.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+</head>
+
 
 {% block styles %}
 {{ super() }}
 	<style type="text/css">
-
-		body { background: #e8f1f9; }
 				
 		#form {
 		position: relative; /* labels need this on the their parent element */
@@ -69,11 +84,21 @@ Student Success Survey Questions
 
 {% block content %}
 
-	<div class="container">
-		<div class="row">
-			<div class="col-xl-12">
+<body>
 
-				<h1 class="pt-5 pb-4">Student Success Survey Questions</h1>
+    <div class="container" style="width: auto;">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="mailto:dreamteamanalytics@gmail.com">Contact</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
 				{% if message %}
 
@@ -90,9 +115,8 @@ Student Success Survey Questions
 
 					<!-- the form is displayed when template opens via GET not POST -->
 
-					<p class="lead alert alert-primary">Submit your answers to our database.</p>
-
-					<p class="ml-4"><a href="{{ url_for('index') }}">Return to the main page.</a></p>
+					<div class="jumbotron" style="width: auto;">
+        				<h1 class="title" spellcheckker="false" style="text-align: center; font-weight: 700; font-family: Georgia, serif; width: 100%;">Student Success Survey<br></h1>
 
 					<!-- show flash - based on WTForms validators
 				see https://pythonprogramming.net/flash-flask-tutorial/
@@ -153,11 +177,14 @@ Student Success Survey Questions
 					<fieldset class="group">
 						<ul class="field">
 							{{ render_form(form) }}
-							{{ wtf.quick_form(form10) }}
+							{{ wtf.quick_form(form10, button_map={'submit': 'primary btn-dark'}) }}
 						</ul>
 					</fieldset>
 				{% endif %}
 			</div>
+			<footer class="footer">
+				<p>© Dream Team Analytics 2022<br></p>
+			</footer>
 		</div>
 	</div>
 {% endblock %}
