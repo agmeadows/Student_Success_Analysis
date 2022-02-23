@@ -102,14 +102,16 @@ Student Success Survey Questions
 
 				{% if message %}
 
+					<div class="jumbotron" style="width: auto;">
 					<!-- the form was submitted and message exists -->
 					<p class="lead"><strong>{{ message }}</strong></p>
 					<p class="lead">Remember this ID if you would like to view or edit your answers in the future:<br></p>
 					<p class="lead"><strong>{{ id }}</strong></p>
+					<br>
 					<!-- links -->
-					<p><a href="{{ url_for('add_record') }}">Submit additonal answers.</a></p>
-
-					<p><a href="{{ url_for('index') }}">Return to the main page.</a></p>
+					<div class="text-center">
+						<p><a class="btn btn-lg btn-dark" href="add_record" role="button" style="float: none; text-align: center; position: relative; opacity: 1; " id="submit">Submit Additional Answers</a></p>
+					  </div>
 
 				{% else %}
 
@@ -117,6 +119,7 @@ Student Success Survey Questions
 
 					<div class="jumbotron" style="width: auto;">
         				<h1 class="title" spellcheckker="false" style="text-align: center; font-weight: 700; font-family: Georgia, serif; width: 100%;">Student Success Survey<br></h1>
+						<hr style="text-decoration-line: none;">
 
 					<!-- show flash - based on WTForms validators
 				see https://pythonprogramming.net/flash-flask-tutorial/
