@@ -105,7 +105,7 @@ CREATE TABLE "Surveys" (
 
 CREATE TABLE "Features" (
 	"feature" text   NOT NULL,
-	"value" float   NOT NULL,
+	"value" float8   NOT NULL,
 	"group" text   NOT NULL
 );
 
