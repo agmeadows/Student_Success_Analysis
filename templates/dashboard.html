@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Narrow Jumbotron Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../css/editor.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+  </head>
+
+  <body style="background-color: rgb(213, 237, 240);">
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              
+            </li>
+            <li class="nav-item">
+              
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted"></h3>
+      </div>
+
+      <div class="bg-overlay">
+        <h1 class="display-3" style="text-align: center;">Survey Results</h1>
+        
+        
+      </div>
+
+      <img src="https://cdn.pixabay.com/photo/2015/10/18/19/04/graduation-995042__340.jpg" height="" width="600" style="float: none; border-style: solid; width: 680px;"><div class="row marketing">
+        <div class="col-lg-6"><hr style="">
+          
+          
+
+          
+          
+
+          <h4>Radar Chart of Results</h4>
+          <p>The chart provided shows results of your survey answers compared to optimal results.</p>
+        <div data-component-chartjs="" class="chartjs" data-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Red&quot;,&quot;Blue&quot;,&quot;Yellow&quot;,&quot;Green&quot;,&quot;Purple&quot;,&quot;Orange&quot;],&quot;datasets&quot;:[{&quot;data&quot;:[12,19,3,5,2,3],&quot;fill&quot;:false,&quot;borderColor&quot;:&quot;rgba(255, 99, 132, 0.2)&quot;},{&quot;fill&quot;:false,&quot;data&quot;:[3,15,7,4,19,12],&quot;borderColor&quot;:&quot;rgba(54, 162, 235, 0.2)&quot;}]}}" style="min-height:240px;min-width:240px;width:100%;height:100%;position:relative">			  <canvas style="display: block; width: 323px; height: 161px;" class="chartjs-render-monitor" width="323" height="161"></canvas>			</div></div>
+
+        <div class="col-lg-6"><hr style="">
+          <h4>School Sentiment</h4>
+          <p>Resource description from db</p>
+
+          <h4>School Behavior</h4>
+          <p>Resource description from db</p>
+
+          <h4>School Type</h4>
+          <p>Resource description from db</p>
+        <h4>Enrichment Activity</h4><p>Resource description from db</p><h4>Technology</h4><p>Resource description from db</p></div>
+      </div>
+
+      <footer class="footer">
+        <p>© Dream Team Analytics 2022</p>
+      </footer>
+
+    </div> <!-- /container -->
+  
+
+<script id="chartjs-script" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script><script>				$(document).ready(function() {					$(".chartjs").each(function () {						ctx = $("canvas", this).get(0).getContext("2d");						config = JSON.parse(this.dataset.chart);						chartjs = new Chart(ctx, config);					});				});			  </script></body>
+</html>
