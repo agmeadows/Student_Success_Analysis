@@ -44,5 +44,7 @@ https://student-success-analysis.herokuapp.com/
 
  - Since all of our data was classification data, we began by using the Random Forest Classifier and the Extremely Random Forest Classifier.  However, we discovered that these models were overfitting the training data unless we limited nearly all of our categories.  So, we then turned to AdaBoost Classifier since it known for working well with binary classification.  AdaBoost would continue to correct errors of the preceding model to help improve our accuracy.  We then reviewed the feature importance and were able to eliminate some of the less important features.  We then run the remaining features through the AdaBoost classifier again and improved our accuracy. We benefited from the continual learning to help improve the model.  A limitation is that the dataset has to really have minimal noise.  We originally used pd.dummies to encode the data but then switched to OneHotEncoder so that we could employ the parameter of dropping the 1st category if it were binary (Yes or No) but retain all the columns if it was just a classification.
 
+ - The current accuracy score is 70%.
+
 ## Dashboard
-To do
+The dashboard is displayed upon completion of the student survey.  It is a Flask site using Bootstrap hosted by Heroku.  Using D3 a radar chart will be generated with the respondent's results overlaying the optimal results from the ML model.  In addition, resources will be dynamically presented in the categories that may enhance the respondent's results in the future.
