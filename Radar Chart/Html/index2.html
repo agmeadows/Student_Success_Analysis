@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-radar.min.js"></script>
+    <style type="text/css">
+      html, body, #container {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: lightskyblue;
+        border: 5px solid black; 
+      }
+  </style>
+    </style>
+  </head>
+  <body>
+    
+      <h1>How To Utilze The Chart</h1>
+      <p> Please use the dark blue image to compare your rador 
+          chart to the A students in the United States. 
+          Each of the  aspects of our student sucess form individual 
+          axes which have been arranged radially around a point. 
+          The value of each aspect is depicted by the node (anchor) on the spoke (axis).
+          Giving a visualization of student performance data.
+
+        
+      
+      
+        </p>
+      <p> 
+       <H3>Resources For Improvement</H3>   
+      <br/><b>School Sentiment</b><br>
+      <br/><b>Region</b><br>
+      <br/><b>Family Demographics</b><br>
+      <br/><b>School Behavior</b><br>
+      <br/><b>Technology</b><br>
+      <br/><b>Enrichment Activities</b><br>
+
+
+        
+    </p>
+    
+
+    <div id="container"></div>
+  </body>
+  <script>
+  
+    anychart.onDocumentReady(function () {
+    // our data from A student 
+    
+      var data1 = [
+        {x: "School Sentiment", value: 0.041},
+        {x: "Region", value: 0.078},
+        {x: "Family Demographics", value: 0.027333},
+        {x: "School Behavior", value: 0.042},
+        {x: "Technology", value: 0.016},
+        {x: "Enrichment Activities", value: 0.032},
+      ];
+        // our data for input from the form
+var data2 = [
+        {x: "School Sentiment", value: 0.01},
+        {x: "Region", value: 0.01},
+        {x: "Family Demographics", value: 0.02},
+        {x: "School Behavior", value: 0.02},
+        {x: "Technology", value: 0.03},
+        {x: "Enrichment Activities", value: 0.03},
+      ];
+
+
+      // create radar chart
+      var chart = anychart.radar();
+    
+
+      // create first series
+      chart.line(data1)
+      // create second series
+      chart.line(data2)
+     
+      // set chart title
+      chart.title("Educational Rador Chart For A Students");
+
+      // set container id for the chart
+      chart.container('container');
+      // initiate chart drawing
+      chart.draw();
+
+    });
+    
+  </script>
+</html>
