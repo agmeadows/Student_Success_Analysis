@@ -1,37 +1,45 @@
 value,feature,group
-0.116,SEENJOY,School Sentiment
-0.078,CENREG,Region
-0.074,CSPEAKX,Family Demographics
-0.052,SEABSNT,School Behavior
-0.042,TTLHHINC,Family Demographics
-0.04,FHWKHRS,School Behavior
-0.036,HHTOTALXX,Family Demographics
-0.034,FHHOME,School Behavior
-0.032,P2MRSTA,Family Demographics
-0.032,INTACC,Technology
-0.032,FORESPON,Enrichment Activities
-0.03,PAR1FTFY,Family Demographics
-0.026,P2REL,Family Demographics
-0.026,P1REL,Family Demographics
-0.024,HHPRTNRSX,Family Demographics
-0.024,FOHISTX,Family Demographics
-0.024,FOGAMES,Enrichment Activity
-0.024,FCTEACHR,School Sentiment
-0.022,OWNRNTHB,Family Demographics
-0.02,SCHRTSCHL,School Type
-0.018,P2AGE,Family Demographics
-0.018,HHENGLISH,Family Demographics
-0.018,FOLIBRAYX,Enrichment Activity
-0.018,FOBOOKSTX,Enrichment Activity
-0.016,NUMSIBSX,Family Demographics
-0.016,FOCONCRTX,Enrichment Activity
-0.014,P2SEX,Family Demographics
-0.014,FOSTORY2X,Enrichment Activity
-0.014,FOMUSEUMX,Enrichment Activity
-0.014,FCSCHOOL,School Sentiment
-0.012,SCHLMAGNET,School Type
-0.01,FCSTDS,School Sentiment
-0.008,PAR1EMPL,Family Demographics
-0.008,LRNCELL,Technology
-0.008,CHLDNT,Technology
-0.006,DISTASSI,School Type
+0.03,SEENJOY_1,School Sentiment
+0.023,FORESPON_2,Enrichment Activity
+0.023,CENREG_4,Region
+0.022,P1AGE_2,Family Demographics
+0.022,HHPRTNRSX_1,Family Demographics
+0.021,TTLHHINC_4,Family Demographics
+0.021,SEENJOY_3,School Sentiment
+0.021,FCTEACHR_1,School Sentiment
+0.02,P2AGE_2,Family Demographics
+0.02,FOGAMES_2,Enrichment Activity
+0.019,FOHISTX_2,Family Demographics
+0.019,CENREG_1,Region
+0.018,PAR1FTFY_2,Family Demographics
+0.018,P2MRSTA_5,Family Demographics
+0.018,P2AGE_5,Family Demographics
+0.018,HHTOTALXX_5,Family Demographics
+0.018,FHHOME_4,School Behavior
+0.017,SEABSNT_1,School Sentiment
+0.017,SCHRTSCHL_2,School Type
+0.017,HHENGLISH_2,Family Demographics
+0.017,CSPEAKX_6,Family Demographics
+0.016,SEABSNT_4,School Behavior
+0.016,INTACC_4,Technology
+0.016,FHWKHRS_1,School Behavior
+0.015,P2REL_1,Family Demographics
+0.015,LRNCELL_2,Technology
+0.014,P1AGE_1,Family Demographics
+0.014,NUMSIBSX_5,Family Demographics
+0.014,FOLIBRAYX_2,Enrichment Activity
+0.013,P2MRSTA_2,Family Demographics
+0.013,HHTOTALXX_4,Family Demographics
+0.013,FOSTORY2X_2,Enrichment Activity
+0.013,FOMUSEUMX_2,Enrichment Activity
+0.013,FCSTDS_4,School Sentiment
+0.013,CSPEAKX_5,Family Demographics
+0.012,P1REL_1,Family Demographics
+0.011,SCHLMAGNET_2,School Type
+0.011,P2AGE_4,Family Demographics
+0.011,OWNRNTHB_2,Family Demographics
+0.011,FOCONCRTX_2,Enrichment Activity
+0.011,FOBOOKSTX_2,Enrichment Activity
+0.011,FHWKHRS_3,School Behavior
+0.011,DISTASSI_2,School Type
+0.011,CHLDNT_3,Technology
