@@ -1,45 +1,45 @@
-value,feature,group
-0.03,SEENJOY_1,School Sentiment
-0.023,FORESPON_2,Enrichment Activity
-0.023,CENREG_4,Region
-0.022,P1AGE_2,Family Demographics
-0.022,HHPRTNRSX_1,Family Demographics
-0.021,TTLHHINC_4,Family Demographics
-0.021,SEENJOY_3,School Sentiment
-0.021,FCTEACHR_1,School Sentiment
-0.02,P2AGE_2,Family Demographics
-0.02,FOGAMES_2,Enrichment Activity
-0.019,FOHISTX_2,Family Demographics
-0.019,CENREG_1,Region
-0.018,PAR1FTFY_2,Family Demographics
-0.018,P2MRSTA_5,Family Demographics
-0.018,P2AGE_5,Family Demographics
-0.018,HHTOTALXX_5,Family Demographics
-0.018,FHHOME_4,School Behavior
-0.017,SEABSNT_1,School Sentiment
-0.017,SCHRTSCHL_2,School Type
-0.017,HHENGLISH_2,Family Demographics
-0.017,CSPEAKX_6,Family Demographics
-0.016,SEABSNT_4,School Behavior
-0.016,INTACC_4,Technology
-0.016,FHWKHRS_1,School Behavior
-0.015,P2REL_1,Family Demographics
-0.015,LRNCELL_2,Technology
-0.014,P1AGE_1,Family Demographics
-0.014,NUMSIBSX_5,Family Demographics
-0.014,FOLIBRAYX_2,Enrichment Activity
-0.013,P2MRSTA_2,Family Demographics
-0.013,HHTOTALXX_4,Family Demographics
-0.013,FOSTORY2X_2,Enrichment Activity
-0.013,FOMUSEUMX_2,Enrichment Activity
-0.013,FCSTDS_4,School Sentiment
-0.013,CSPEAKX_5,Family Demographics
-0.012,P1REL_1,Family Demographics
-0.011,SCHLMAGNET_2,School Type
-0.011,P2AGE_4,Family Demographics
-0.011,OWNRNTHB_2,Family Demographics
-0.011,FOCONCRTX_2,Enrichment Activity
-0.011,FOBOOKSTX_2,Enrichment Activity
-0.011,FHWKHRS_3,School Behavior
-0.011,DISTASSI_2,School Type
-0.011,CHLDNT_3,Technology
+value,feature,group,id
+0.03,SEENJOY_1,School Sentiment,5490411711
+0.023,FORESPON_2,Enrichment Activity,3475518291
+0.023,CENREG_4,Region,9143167660
+0.022,P1AGE_2,Family Demographics,2303585609
+0.022,HHPRTNRSX_1,Family Demographics,977057219
+0.021,TTLHHINC_4,Family Demographics,9408570611
+0.021,SEENJOY_3,School Sentiment,4267106464
+0.021,FCTEACHR_1,School Sentiment,9141783226
+0.02,P2AGE_2,Family Demographics,1309198155
+0.02,FOGAMES_2,Enrichment Activity,3141548746
+0.019,FOHISTX_2,Family Demographics,1843842175
+0.019,CENREG_1,Region,7251971420
+0.018,PAR1FTFY_2,Family Demographics,5900421801
+0.018,P2MRSTA_5,Family Demographics,4212560709
+0.018,P2AGE_5,Family Demographics,2358487460
+0.018,HHTOTALXX_5,Family Demographics,2349976461
+0.018,FHHOME_4,School Behavior,3350621443
+0.017,SEABSNT_1,School Sentiment,926190993
+0.017,SCHRTSCHL_2,School Type,3275329073
+0.017,HHENGLISH_2,Family Demographics,355540479
+0.017,CSPEAKX_6,Family Demographics,2930211249
+0.016,SEABSNT_4,School Behavior,8047876096
+0.016,INTACC_4,Technology,8124221748
+0.016,FHWKHRS_1,School Behavior,83907435
+0.015,P2REL_1,Family Demographics,2748656569
+0.015,LRNCELL_2,Technology,4879954129
+0.014,P1AGE_1,Family Demographics,8957138399
+0.014,NUMSIBSX_5,Family Demographics,1840507362
+0.014,FOLIBRAYX_2,Enrichment Activity,1141025334
+0.013,P2MRSTA_2,Family Demographics,1341998242
+0.013,HHTOTALXX_4,Family Demographics,743888210
+0.013,FOSTORY2X_2,Enrichment Activity,1419537618
+0.013,FOMUSEUMX_2,Enrichment Activity,4672248822
+0.013,FCSTDS_4,School Sentiment,2815573057
+0.013,CSPEAKX_5,Family Demographics,1028710739
+0.012,P1REL_1,Family Demographics,5777928224
+0.011,SCHLMAGNET_2,School Type,2200825917
+0.011,P2AGE_4,Family Demographics,5799904015
+0.011,OWNRNTHB_2,Family Demographics,1707781529
+0.011,FOCONCRTX_2,Enrichment Activity,3589571315
+0.011,FOBOOKSTX_2,Enrichment Activity,1979459493
+0.011,FHWKHRS_3,School Behavior,4235797942
+0.011,DISTASSI_2,School Type,2214685240
+0.011,CHLDNT_3,Technology,1557522965
