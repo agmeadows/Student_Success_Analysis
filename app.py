@@ -8,6 +8,7 @@ from wtforms import SubmitField, SelectField, HiddenField, IntegerField, TextFie
 from wtforms.validators import InputRequired, NumberRange, DataRequired, ValidationError, Email, EqualTo
 from datetime import datetime
 from uuid import uuid4
+import pandas as pd
 
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -134,8 +135,9 @@ class Features(db.Model):
     feature = db.Column(db.Text)
     group = db.Column(db.Text)
 
-    def __init__(self, value, feature, group
+    def __init__(self, id, value, feature, group
             ):
+        self.id = id
         self.value = value
         self.feature = feature
         self.group = group
@@ -457,9 +459,12 @@ def add_resource():
 def data():
     try:
         id = request.args.get('id', None)
-        questions = Questions.query.filter_by(id=id).all()
-        features = Features.query.all()
-        return render_template('radar_chart.html', features=features, questions=questions)
+        questions_data = Questions.query.filter_by(id=id).all()
+        questions = [d.__dict__ for d in questions_data]
+        features_data = Features.query.all()
+        features = [d.__dict__ for d in features_data]
+        print(questions)
+        return render_template('dashboard.html', features=features, questions=questions)
     except Exception as e:
         # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"
