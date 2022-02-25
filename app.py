@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 from flask_login import LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
@@ -126,6 +126,19 @@ class Questions(db.Model):
         self.INTACC = INTACC
         self.CHLDNT = CHLDNT
         self.LRNCELL = LRNCELL
+
+class Features(db.Model):
+    __tablename__ = 'Features'
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.Text)
+    feature = db.Column(db.Text)
+    group = db.Column(db.Text)
+
+    def __init__(self, value, feature, group
+            ):
+        self.value = value
+        self.feature = feature
+        self.group = group
 
 class Resources(db.Model):
     __tablename__ = 'Resources'
@@ -349,7 +362,7 @@ def add_record():
         db.session.commit()
         # create a message to send to the template
         message = f"Your answers have been submitted."
-        return render_template('add_record.html', message=message, id=id)
+        return redirect(url_for('data', message=message, id=id))
     else:
         # show validaton errors
         # see https://pythonprogramming.net/flash-flask-tutorial/
@@ -440,6 +453,18 @@ def add_resource():
                 ), 'error')
         return render_template('add_resource.html', form1=form1, form2=form2)
 
+@app.route('/data')
+def data():
+    try:
+        id = request.args.get('id', None)
+        questions = Questions.query.filter_by(id=id).all()
+        features = Features.query.all()
+        return render_template('radar_chart.html', features=features, questions=questions)
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
 
 # +++++++++++++++++++++++
 # error routes
