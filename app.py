@@ -529,6 +529,7 @@ def data():
         tech_resources_df = resources_df[resources_df['GROUP'] == 'Technology']
         tech_resources_df = tech_resources_df.drop(columns={'id', 'GROUP'})
         tech_resources = tech_resources_df.values.tolist()
+        print(tech_resources)
     else:
         tech_resources = pd.DataFrame()
 
