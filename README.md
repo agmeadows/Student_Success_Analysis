@@ -1,6 +1,6 @@
 # Student Success Analysis
 
-#### Presentation link
+#### [Presentation link](segment_3_presentation.pdf)
 
 ## Topic
 We have decided to investigate what factors contribute the greatest student success in K-12 education.  With more education choices than ever before with remote learning, home schooling, hybrid solutions, public schools, private schools, etc., will different combinations of factors yield greater academic success than others and how might those factors change with different educational paths.  Are we able to predict the success of a student based on different factors?
