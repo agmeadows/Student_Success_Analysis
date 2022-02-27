@@ -77,7 +77,70 @@ new_df["TTLHHINC"] = [(1 if x <= 4 else (2 if x < 9 else (3 if x < 11 else 4))) 
  - Since all of our data was classification data, we began by using the Random Forest Classifier and the Extremely Random Forest Classifier.  However, we discovered that these models were overfitting the training data unless we limited nearly all of our categories.  So, we then turned to AdaBoost Classifier since it known for working well with binary classification.  AdaBoost would continue to correct errors of the preceding model to help improve our accuracy.  We benefited from the continual learning to help improve the model.  A limitation is that the dataset has to really have minimal noise.  We originally used pd.dummies to encode the data but then switched to OneHotEncoder so that we could employ the parameter of dropping the 1st category if it were binary (Yes or No) but retain all the columns if it was just a classification.  This worked well until later on when building out the radar chart for the results dashboard, we noticed the scores were not making sense.  The issue was that the Yes data in the dataset was coded as a "1" and No data was coded as a "2".  When the encoder dropped the first binary column, it dropped the Yes data column since it was the first column.  We then went back and manually dropped the No columns instead.  Re-running the model again, there was no difference in scores but made the development of the dashboard easier.
 
  - The current accuracy score is 70%.
+
  ![classification_matrix](Images/classification_matrix.png)
+
+ - We then used the feature importances to determine how the model weighted each category.  The top ten features were as follows:
+   - SEENJOY_1:  The parent strongly agrees that the child enjoys school.
+   - FORESPON_1:  In the past week, the parent indicates that they have discussed time management with the child.
+   - CENREG_4:  The child lives in the census region West (Alaska, Arizona, California, Colorado, Hawaii, Idaho, Montana, Nevada, New 
+     Mexico, Oregon, Utah, Washington, and Wyoming)
+   - P1AGE_2:  The first parent/guardian's age is within the range of 30-45 years.
+   - HHPRTNRSX_1: The parent's girlfriend/boyfriend/partner lives in the same household as the child.
+   - TTLHHINC_4:  The total household income is greater than $200k
+   - SEENJOY_3: The parent disagrees that the child enjoys school.
+   - FCTEACHR_1: The parent reports being very satisifed with the teacher.
+   - P2AGE_2: The second parent/guardian's age is within the range of 30-45 years.
+   - FOGAMES_1: In the past week, the child has played board games.
+
+- While not every features such as census region, age of parent,the presence of a another adult in the household, and household income is easily controlled by the parent/guardian, we decided to feature items that were within control of the parent to make a difference in the child's success of achieving mostly A's.  We focused on features that had a value score greater than .01 and then eliminated rows that were out of the parent/guardian's control.  These were then grouped into categories and put into a dataframe.
+
+```
+# remove features with a feature importance value less than .01
+feature_data_df = feature_data_df.loc[(feature_data_df["value"]>.01)]
+feature_list = feature_data_df["feature"].tolist()
+```
+```
+# remove feature rows that parents cannot control.  Will use remainder of features to display features in front end
+# that parents can improve up and within their control.
+feature_data_df = feature_data_df.drop([2,3,4,5,8,11,12,13,14,15,19,20,24,25,26,27,28,32,33,35,36])
+```
+```
+# create function to map the groups
+def set_group(row_number, assigned_group):
+    return assigned_group[row_number]
+
+# create dictionary of groups
+group_dict = {'SEENJOY_1': "School Sentiment",
+ 'FORESPON_1': 'Enrichment Activity',
+ 'SEENJOY_3': "School Sentiment",
+ 'FCTEACHR_1': 'School Sentiment',
+ 'FOGAMES_1': 'Enrichment Activity',
+ 'FOHISTX_1': 'Enrichment Activity',
+ 'FHHOME_4': 'School Behavior',
+ 'SEABSNT_1': 'School Sentiment',
+ 'SCHRTSCHL_1': 'School Type',
+ 'SEABSNT_4': 'School Behavior',
+ 'INTACC_4': 'Technology',
+ 'FHWKHRS_1': 'School Behavior',
+ 'LRNCELL_2': 'Technology',
+ 'FOLIBRAYX_1': 'Enrichment Activity',
+ 'FOSTORY2X_1': 'Enrichment Activity',
+ 'FOMUSEUMX_1': 'Enrichment Activity',
+ 'FCSTDS_4': 'School Sentiment',
+ 'SCHLMAGNET_1': 'School Type',
+ 'FOCONCRTX_1': 'Enrichment Activity',
+ 'FOBOOKSTX_1': 'Enrichment Activity',
+ 'FHWKHRS_3': 'School Behavior',
+ 'DISTASSI_1': 'School Type',
+ 'CHLDNT_3': 'Technology'}
+
+# add new column and apply groups
+feature_data_df['group'] = feature_data_df['feature'].apply(set_group, args=(group_dict, ))
+```
+We then loaded these features into the Features table of the database to use for the radar chart and resource suggestions on the dashboard.
+
+The machine learning notebook can be found here: [student_success_ml](Optimize\Student_Success_ML.ipynb)
 
 ## Dashboard
 The dashboard is displayed upon completion of the student survey.  It is a Flask site using Bootstrap hosted by Heroku.  Using D3 a radar chart will be generated with the respondent's results overlaying the optimal results from the ML model.  In addition, resources will be dynamically presented in the categories that may enhance the respondent's results in the future.
