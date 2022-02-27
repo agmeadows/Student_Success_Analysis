@@ -2,42 +2,23 @@ id,value,feature,group
 1,0.03,SEENJOY_1,School Sentiment
 2,0.023,FORESPON_2,Enrichment Activity
 3,0.023,CENREG_4,Region
-4,0.022,P1AGE_2,Family Demographics
-5,0.022,HHPRTNRSX_1,Family Demographics
-6,0.021,TTLHHINC_4,Family Demographics
 7,0.021,SEENJOY_3,School Sentiment
 8,0.021,FCTEACHR_1,School Sentiment
-9,0.02,P2AGE_2,Family Demographics
 10,0.02,FOGAMES_2,Enrichment Activity
-11,0.019,FOHISTX_2,Family Demographics
+11,0.019,FOHISTX_2,Enrichment Activity
 12,0.019,CENREG_1,Region
-13,0.018,PAR1FTFY_2,Family Demographics
-14,0.018,P2MRSTA_5,Family Demographics
-15,0.018,P2AGE_5,Family Demographics
-16,0.018,HHTOTALXX_5,Family Demographics
 17,0.018,FHHOME_4,School Behavior
 18,0.017,SEABSNT_1,School Sentiment
 19,0.017,SCHRTSCHL_2,School Type
-20,0.017,HHENGLISH_2,Family Demographics
-21,0.017,CSPEAKX_6,Family Demographics
 22,0.016,SEABSNT_4,School Behavior
 23,0.016,INTACC_4,Technology
 24,0.016,FHWKHRS_1,School Behavior
-25,0.015,P2REL_1,Family Demographics
 26,0.015,LRNCELL_2,Technology
-27,0.014,P1AGE_1,Family Demographics
-28,0.014,NUMSIBSX_5,Family Demographics
 29,0.014,FOLIBRAYX_2,Enrichment Activity
-30,0.013,P2MRSTA_2,Family Demographics
-31,0.013,HHTOTALXX_4,Family Demographics
 32,0.013,FOSTORY2X_2,Enrichment Activity
 33,0.013,FOMUSEUMX_2,Enrichment Activity
 34,0.013,FCSTDS_4,School Sentiment
-35,0.013,CSPEAKX_5,Family Demographics
-36,0.012,P1REL_1,Family Demographics
 37,0.011,SCHLMAGNET_2,School Type
-38,0.011,P2AGE_4,Family Demographics
-39,0.011,OWNRNTHB_2,Family Demographics
 40,0.011,FOCONCRTX_2,Enrichment Activity
 41,0.011,FOBOOKSTX_2,Enrichment Activity
 42,0.011,FHWKHRS_3,School Behavior
