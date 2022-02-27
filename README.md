@@ -1,5 +1,7 @@
 # Student Success Analysis
 
+#### Presentation link
+
 ## Topic
 We have decided to investigate what factors contribute the greatest student success in K-12 education.  With more education choices than ever before with remote learning, home schooling, hybrid solutions, public schools, private schools, etc., will different combinations of factors yield greater academic success than others and how might those factors change with different educational paths.  Are we able to predict the success of a student based on different factors?
 
@@ -10,7 +12,6 @@ Our data source comes from the National Center for Education Statistics, which b
 We hope to answer the following questions:
   - What combination of factors yield the greatest student success?
   - How do those factors differ for success with different education paths, such as remote learning?
-  - Are there paths that better prepare future success in post-secondary education?
 
 ## Dream Team Protocols
 We have named our project group the Dream Team.  We hae settled on a quick daily checkin at 6:00 via Slack.  Future meetings may be scheduled as needed depending on challenges presented throughout the project.  
@@ -143,4 +144,6 @@ We then loaded these features into the Features table of the database to use for
 The machine learning notebook can be found here: [student_success_ml](Optimize\Student_Success_ML.ipynb)
 
 ## Dashboard
-The dashboard is displayed upon completion of the student survey.  It is a Flask site using Bootstrap hosted by Heroku.  Using D3 a radar chart will be generated with the respondent's results overlaying the optimal results from the ML model.  In addition, resources will be dynamically presented in the categories that may enhance the respondent's results in the future.
+The dashboard is displayed upon completion of the student survey.  It is a Flask site using Bootstrap hosted by Heroku.  A radar chart is created based upon the user's responses to the survey questions to visualize the results.  Within the [app.py]() file, the chart data is retrieved for the display.  In addition, parental resources were added via a backend site and are also displayed by grouping on the dashboard.
+
+![dashboard](Images/dashboard.png)
