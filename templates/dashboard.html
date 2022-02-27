@@ -1,3 +1,4 @@
+{% extends 'bootstrap/base.html' %}
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
@@ -14,58 +15,81 @@
     <!-- Custom styles for this template -->
     <link href="narrow-jumbotron.css" rel="stylesheet">
   </head>
-  <body style="background-color: rgb(213, 237, 240);">
-    <div class="container">
-      <div class="jumbotron text-center"
-      style="background-image: url('https://cdn.pixabay.com/photo/2015/10/18/19/04/graduation-995042__340.jpg');
-      background-position: center; background-size: cover;">
-        <h1 style="color:whitesmoke;">Survey Results</h1>
-      </div>
-      <div class="row">
-        <div class="col-lg-6"><h4><b>Radar Chart</b></h4>
-            <p>The chart displays your results compared to the optimal results.</p>
-            <div data-component-chartjs="" 
-            class="chartjs" 
-            data-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Red&quot;,&quot;Blue&quot;,&quot;Yellow&quot;,&quot;Green&quot;,&quot;Purple&quot;,&quot;Orange&quot;],&quot;datasets&quot;:[{&quot;data&quot;:[12,19,3,5,2,3],&quot;fill&quot;:false,&quot;borderColor&quot;:&quot;rgba(255, 99, 132, 0.2)&quot;},{&quot;fill&quot;:false,&quot;data&quot;:[3,15,7,4,19,12],&quot;borderColor&quot;:&quot;rgba(54, 162, 235, 0.2)&quot;}]}}" 
-            style="min-height:240px;min-width:240px;width:100%;height:100%;position:relative">
-            <canvas style="display: block; width: 323px; height: 161px;" 
-            class="chartjs-render-monitor" width="323" height="161"></canvas>
-			</div>
+  {% block content %}
+    <body style="background-color: rgb(213, 237, 240);">
+      <div class="container">
+        <div class="jumbotron text-center"
+        style="background-image: url('https://cdn.pixabay.com/photo/2015/10/18/19/04/graduation-995042__340.jpg');
+        background-position: center; background-size: cover;">
+          <h1 style="color:whitesmoke;">Survey Results</h1>
         </div>
-        <div class="col-lg-6 col-6">
-          <h4><b>School Sentiment</b></h4>
-          <p>Resource description</p>
+        <div class="row">
+          <div class="col-lg-6"><h4><b>Radar Chart</b></h4>
+              <p>The chart displays your results compared to the optimal results.</p>
+              <div class="chart">
+                <div id="radar-chart"></div> 
+              </div>
+            </div>
+          <div class="col-lg-6 col-6">
+            <h4><b>School Sentiment</b></h4>
+            <p>Resource description</p>
 
-          <p>Resource description</p>
+            <p>Resource description</p>
 
-          <h4><b>School Behavior</b></h4>
-          <p>Resource description</p>
+            <h4><b>School Behavior</b></h4>
+            <p>Resource description</p>
 
-          <p>Resource description</p>
-          
-          <h4><b>School Type</b></h4>
-          <p>Resource description</p>
+            <p>Resource description</p>
+            
+            <h4><b>School Type</b></h4>
+            <p>Resource description</p>
 
-          <p>Resource description</p>
-          
-          <h4><b>Enrichment Activity</b></h4>
-          <p>Resource description</p>
+            <p>Resource description</p>
+            
+            <h4><b>Enrichment Activity</b></h4>
+            <p>Resource description</p>
 
-          <p>Resource description</p>
-          
-          <h4><b>Technology</b></h4>
-          <p>Resource description</p>
+            <p>Resource description</p>
+            
+            <h4><b>Technology</b></h4>
+            <p>Resource description</p>
 
-          <p>Resource description</p>
+            <p>Resource description</p>
+          </div>
         </div>
-      </div>
 
-      <footer class="footer">
-        <p>© Dream Team Analytics 2022</p>
-      </footer>
+        <footer class="footer">
+          <p>© Dream Team Analytics 2022</p>
+        </footer>
 
-    </div> <!-- /container -->
+      </div> <!-- /container -->
+    </body>
+
   
+  <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+  <script>
+    var chartdata = {{ chartdata }}
+    
+    data = [{
+      type: 'scatterpolar',
+      r: chartdata,
+      theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'Region', 'School Sentiment'],
+      fill: 'toself'
+      }]
 
-<script id="chartjs-script" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script><script>				$(document).ready(function() {					$(".chartjs").each(function () {						ctx = $("canvas", this).get(0).getContext("2d");						config = JSON.parse(this.dataset.chart);						chartjs = new Chart(ctx, config);					});				});			  </script></body>
+      layout = {
+      polar: {
+        radialaxis: {
+          visible: true,
+          range: [0, 1]
+        }
+      },
+
+      showlegend: false
+
+      }
+
+      Plotly.newPlot("radar-chart", data, layout)
+  </script>
+{% endblock %}
 </html>

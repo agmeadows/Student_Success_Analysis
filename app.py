@@ -1,3 +1,4 @@
+import re
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 from flask_login import LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
@@ -96,6 +97,7 @@ class Questions(db.Model):
     FOCONCRTX = db.Column(db.Integer)
     FOMUSEUMX = db.Column(db.Integer)
     CHLDNT = db.Column(db.Integer)
+    INTACC = db.Column(db.Integer)
     LRNCELL = db.Column(db.Integer)
 
     def __init__(self, id, updated, ALLGRADEX, SEGRADES, CENREG, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
@@ -158,10 +160,7 @@ class Resources(db.Model):
 class Region(FlaskForm):
     # id used only by update/edit
     CENREG = SelectField('In which region do you live?', coerce=int,
-        choices=[(1, 'Northeast (CN, ME, MA, NH, NJ, NY, PA, RI, VT)'), 
-        (2,'South (AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV)'), 
-        (3,'Midwest (IL, IN, IA, KN, MI, MN, MO, NB, ND, OH, SD, WI)'), 
-        (4,'West (AK, AZ, CA, CO, HI, ID, MT, NN, NM, OR, UT, WH, WY)')
+        choices=[(1, 'Northeast (CN, ME, MA, NH, NJ, NY, PA, RI, VT)'), (2,'South (AL, AR, DE, DC, FL, GA, KY, LA, MD, MS, NC, OK, SC, TN, TX, VA, WV)'), (3,'Midwest (IL, IN, IA, KN, MI, MN, MO, NB, ND, OH, SD, WI)'), (4,'West (AK, AZ, CA, CO, HI, ID, MT, NN, NM, OR, UT, WH, WY)')
         ])
 
 class Grades(FlaskForm):
@@ -363,8 +362,7 @@ def add_record():
         db.session.add(record)
         db.session.commit()
         # create a message to send to the template
-        message = f"Your answers have been submitted."
-        return redirect(url_for('data', message=message, id=id))
+        return redirect(url_for('data', id=id))
     else:
         # show validaton errors
         # see https://pythonprogramming.net/flash-flask-tutorial/
@@ -457,19 +455,82 @@ def add_resource():
 
 @app.route('/data')
 def data():
-    try:
-        id = request.args.get('id', None)
-        questions_data = Questions.query.filter_by(id=id).all()
-        questions = [d.__dict__ for d in questions_data]
-        features_data = Features.query.all()
-        features = [d.__dict__ for d in features_data]
-        print(questions)
-        return render_template('dashboard.html', features=features, questions=questions)
-    except Exception as e:
-        # e holds description of the error
-        error_text = "<p>The error:<br>" + str(e) + "</p>"
-        hed = '<h1>Something is broken.</h1>'
-        return hed + error_text
+
+    #try:
+    id = request.args.get('id', None)
+    questions_data = Questions.query.filter_by(id=id).all()
+    questions = [d.__dict__ for d in questions_data]
+    features_data = Features.query.all()
+    features = [d.__dict__ for d in features_data]
+    questions_df = pd.DataFrame(questions)
+    questions_df = questions_df.drop(['_sa_instance_state', 'updated', 'id'], axis=1)
+    questions_df = questions_df.transpose()
+    questions_df.index = questions_df.index.set_names('feature')
+    questions_df = questions_df.reset_index()
+    questions_df.columns = ['feature', 'answer']
+
+    features_df = pd.DataFrame(features)
+    features_df = features_df.drop(['_sa_instance_state'], axis=1)
+    features_df[['feature1', 'answer']] = features_df['feature'].str.split("_", expand=True)
+    features_df = features_df.drop(['feature'], axis = 1)
+    features_df = features_df.rename(columns={'feature1': 'feature'})
+
+    technology_df = features_df[features_df['group']=='Technology']
+    technology_df['value'] = technology_df['value']/ technology_df['value'].sum()
+
+    enrichment_df = features_df[features_df['group']=='Enrichment Activity']
+    enrichment_df['value'] = enrichment_df['value']/ enrichment_df['value'].sum()
+
+    behavior_df = features_df[features_df['group']=='School Behavior']
+    behavior_df['value'] = behavior_df['value']/ behavior_df['value'].sum()
+
+    region_df = features_df[features_df['group']=='Region']
+    region_df['value'] = region_df['value']/ region_df['value'].sum()
+
+    school_df = features_df[features_df['group']=='School Type']
+    school_df['value'] = school_df['value']/ school_df['value'].sum()
+
+    frames = [technology_df, enrichment_df, behavior_df, region_df, school_df]
+    normalized_df = pd.concat(frames)
+
+    print(normalized_df)
+
+
+    newdf = pd.DataFrame()
+
+    for index_x, x in questions_df.iterrows():
+        for index_y, y in normalized_df.iterrows():
+            if (x['feature'] == y['feature']):
+                print("Found matches")
+                if (int(x['answer']) == int(y['answer'])):
+                    print(index_x, 'X:', x['feature'], x['answer'], index_y, 'Y:', y['feature'], y['answer'])
+                    newdf = newdf.append(y)
+
+    newdf = newdf.drop(['id'], axis=1)
+
+    technology_df = newdf[newdf['group']=='Technology']
+    tech_val = technology_df['value'].sum()
+
+    enrichment_df = newdf[newdf['group']=='Enrichment Activity']
+    enrichment_val = enrichment_df['value'].sum()
+
+    behavior_df = newdf[newdf['group']=='School Behavior']
+    behavior_val = behavior_df['value'].sum()
+
+    region_df = newdf[newdf['group']=='Region']
+    region_val = region_df['value'].sum()
+
+    school_df = newdf[newdf['group']=='School Sentiment']
+    school_val = school_df['value'].sum()
+
+    chartdata = [tech_val, enrichment_val, behavior_val, region_val, school_val]
+    
+    return render_template('dashboard.html', chartdata=chartdata)
+    #except Exception as e:
+        # # e holds description of the error
+        # error_text = "<p>The error:<br>" + str(e) + "</p>"
+        # hed = '<h1>Something is broken.</h1>'
+        # return hed + error_text
 
 # +++++++++++++++++++++++
 # error routes
