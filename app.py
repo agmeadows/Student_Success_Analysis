@@ -60,18 +60,10 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-# class Post(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     body = db.Column(db.String(140))
-#     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-#     def __repr__(self):
-#         return '<Post {}>'.format(self.body)
-
 # each table in the database needs a class to be created for it
 # db.Model is required - don't change it
 # identify all columns by name and data type
+
 class Questions(db.Model):
     __tablename__ = 'Surveys'
     id = db.Column(db.Text, primary_key=True)
@@ -458,10 +450,31 @@ def data():
 
     #try:
     id = request.args.get('id', None)
+    
+    # function to sum values within group
+    def sumVal(df, group):
+        summed_df = df[df['group']==group]
+        return summed_df['value'].sum()
+    
+    # function to normalize values
+    def normVal(df, group, column):
+        normalized_df = df[df['group']==group]
+        normalized_df[column] = normalized_df[column]/normalized_df[column].sum()
+        return normalized_df
+    
+    # query DB and tables to get data
     questions_data = Questions.query.filter_by(id=id).all()
     questions = [d.__dict__ for d in questions_data]
     features_data = Features.query.all()
     features = [d.__dict__ for d in features_data]
+    resources_data = Resources.query.all()
+    resources = [d.__dict__ for d in resources_data]
+
+    # drop uneeded columns
+    resources_df = pd.DataFrame(resources)
+    resources_df = resources_df.drop(['_sa_instance_state'], axis=1)
+
+    # drop uneeded columns and transpose the DF for comparison to the ideal features
     questions_df = pd.DataFrame(questions)
     questions_df = questions_df.drop(['_sa_instance_state', 'updated', 'id'], axis=1)
     questions_df = questions_df.transpose()
@@ -469,63 +482,90 @@ def data():
     questions_df = questions_df.reset_index()
     questions_df.columns = ['feature', 'answer']
 
+    # drop uneeded columns and split the answers from the feature name
     features_df = pd.DataFrame(features)
     features_df = features_df.drop(['_sa_instance_state'], axis=1)
     features_df[['feature1', 'answer']] = features_df['feature'].str.split("_", expand=True)
     features_df = features_df.drop(['feature'], axis = 1)
     features_df = features_df.rename(columns={'feature1': 'feature'})
 
-    technology_df = features_df[features_df['group']=='Technology']
-    technology_df['value'] = technology_df['value']/ technology_df['value'].sum()
+    
+    # normalize values within group to 1
+    technology_df = normVal(features_df, 'Technology', 'value')
+    enrichment_df = normVal(features_df, 'Enrichment Activity', 'value')
+    behavior_df = normVal(features_df, 'School Behavior', 'value')
+    region_df = normVal(features_df, 'Region', 'value')
+    school_df = normVal(features_df, 'School Type', 'value')
+    schoolsent_df = normVal(features_df, 'School Sentiment', 'value')
 
-    enrichment_df = features_df[features_df['group']=='Enrichment Activity']
-    enrichment_df['value'] = enrichment_df['value']/ enrichment_df['value'].sum()
-
-    behavior_df = features_df[features_df['group']=='School Behavior']
-    behavior_df['value'] = behavior_df['value']/ behavior_df['value'].sum()
-
-    region_df = features_df[features_df['group']=='Region']
-    region_df['value'] = region_df['value']/ region_df['value'].sum()
-
-    school_df = features_df[features_df['group']=='School Type']
-    school_df['value'] = school_df['value']/ school_df['value'].sum()
-
-    frames = [technology_df, enrichment_df, behavior_df, region_df, school_df]
+    frames = [technology_df, enrichment_df, behavior_df, region_df, school_df, schoolsent_df]
     normalized_df = pd.concat(frames)
 
-    print(normalized_df)
-
-
+    
+    # match questions to ideal answer and add to DF
     newdf = pd.DataFrame()
-
     for index_x, x in questions_df.iterrows():
         for index_y, y in normalized_df.iterrows():
             if (x['feature'] == y['feature']):
-                print("Found matches")
+                #print("Found matches")
                 if (int(x['answer']) == int(y['answer'])):
-                    print(index_x, 'X:', x['feature'], x['answer'], index_y, 'Y:', y['feature'], y['answer'])
+                    #print(index_x, 'X:', x['feature'], x['answer'], index_y, 'Y:', y['feature'], y['answer'])
                     newdf = newdf.append(y)
 
     newdf = newdf.drop(['id'], axis=1)
-
-    technology_df = newdf[newdf['group']=='Technology']
-    tech_val = technology_df['value'].sum()
-
-    enrichment_df = newdf[newdf['group']=='Enrichment Activity']
-    enrichment_val = enrichment_df['value'].sum()
-
-    behavior_df = newdf[newdf['group']=='School Behavior']
-    behavior_val = behavior_df['value'].sum()
-
-    region_df = newdf[newdf['group']=='Region']
-    region_val = region_df['value'].sum()
-
-    school_df = newdf[newdf['group']=='School Sentiment']
-    school_val = school_df['value'].sum()
-
-    chartdata = [tech_val, enrichment_val, behavior_val, region_val, school_val]
     
-    return render_template('dashboard.html', chartdata=chartdata)
+    # sum the values of the answers from the survey
+    tech_val = sumVal(newdf, 'Technology')
+    enrichment_val = sumVal(newdf, 'Enrichment Activity')
+    behavior_val = sumVal(newdf, 'School Behavior')
+    region_val = sumVal(newdf, 'Region')
+    school_val = sumVal(newdf, 'School Type')
+    schoolsent_val = sumVal(newdf, 'School Sentiment')
+    
+    # store values to be sent to the dashboard
+    chartdata = [tech_val, enrichment_val, behavior_val, region_val, school_val, schoolsent_val]
+
+    if (tech_val < 1):
+        tech_resources_df = resources_df[resources_df['GROUP'] == 'Technology']
+        tech_resources_df = tech_resources_df.drop(columns={'id', 'GROUP'})
+        tech_resources = tech_resources_df.values.tolist()
+    else:
+        tech_resources = pd.DataFrame()
+
+    if (enrichment_val < 1):
+        enrichment_resources_df = resources_df[resources_df['GROUP'] == 'Enrichment Activity']
+        enrichment_resources_df = enrichment_resources_df.drop(columns={'id', 'GROUP'})
+        enrichment_resources = enrichment_resources_df.values.tolist()
+    else:
+        enrichment_resources = pd.DataFrame()
+
+    if (behavior_val < 1):
+        behavior_resources_df = resources_df[resources_df['GROUP'] == 'School Behavior']
+        behavior_resources_df = behavior_resources_df.drop(columns={'id', 'GROUP'})
+        behavior_resources = behavior_resources_df.values.tolist()
+    else:
+        behavior_resources = pd.DataFrame()
+
+    if (school_val < 1):
+        school_resources_df = resources_df[resources_df['GROUP'] == 'School Type']
+        school_resources_df = school_resources_df.drop(columns={'id', 'GROUP'})
+        school_resources = school_resources_df.values.tolist()
+    else:
+        school_resources = pd.DataFrame()
+
+    if (schoolsent_val < 1):
+        schoolsent_resources_df = resources_df[resources_df['GROUP'] == 'School Sentiment']
+        schoolsent_resources_df = schoolsent_resources_df.drop(columns={'id', 'GROUP'})
+        schoolsent_resources = schoolsent_resources_df.values.tolist()
+    else:
+        schoolsent_resources = pd.DataFrame()
+
+    return render_template('dashboard.html', chartdata=chartdata, tech_resources=tech_resources, 
+                            enrichment_resources=enrichment_resources, behavior_resources=behavior_resources,
+                            school_resources=school_resources, schoolsent_resources=schoolsent_resources,
+                            tech_val=tech_val, enrichment_val=enrichment_val, behavior_val=behavior_val,
+                            school_val=school_val, schoolsent_val=schoolsent_val
+                            )
     #except Exception as e:
         # # e holds description of the error
         # error_text = "<p>The error:<br>" + str(e) + "</p>"

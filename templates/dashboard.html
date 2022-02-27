@@ -31,30 +31,51 @@
               </div>
             </div>
           <div class="col-lg-6 col-6">
-            <h4><b>School Sentiment</b></h4>
-            <p>Resource description</p>
-
-            <p>Resource description</p>
-
-            <h4><b>School Behavior</b></h4>
-            <p>Resource description</p>
-
-            <p>Resource description</p>
-            
-            <h4><b>School Type</b></h4>
-            <p>Resource description</p>
-
-            <p>Resource description</p>
-            
-            <h4><b>Enrichment Activity</b></h4>
-            <p>Resource description</p>
-
-            <p>Resource description</p>
-            
-            <h4><b>Technology</b></h4>
-            <p>Resource description</p>
-
-            <p>Resource description</p>
+            {% if schoolsent_val < 1 %}
+              <h4><b>School Sentiment</b></h4>
+              <p>
+                Here are a list of resources to help improve school enjoyment
+                {% for row in schoolsent_resources %}
+                      <li> <a href={{ row[0] }} target="_blank">{{ row[1] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+            {% if behavior_val < 1 %}
+              <h4><b>School Behavior</b></h4>
+              <p>
+                Here are a list of resources for improving school behavior
+                {% for row in behavior_resources %}
+                      <li> <a href={{ row[0] }} target="_blank">{{ row[1] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+            {% if school_val < 1 %}
+              <h4><b>School Type</b></h4>
+              <p>
+                Here are is information on alternative school types
+                {% for row in school_resources %}
+                      <li> <a href={{ row[0] }} target="_blank">{{ row[1] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+            {% if enrichment_val < 1 %}
+              <h4><b>Enrichment Activity</b></h4>
+              <p>
+                Here are a list of resources to help with enrichment activities
+                {% for row in enrichment_resources %}
+                      <li> <a href={{ row[0] }} target="_blank">{{ row[1] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+            {% if tech_val < 1 %}
+              <h4><b>Technology</b></h4>
+              <p>
+                Here are a list of resources to help with Technology
+                {% for row in tech_resources %}
+                      <li> <a href={{ row[0] }} target="_blank">{{ row[1] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
           </div>
         </div>
 
@@ -73,7 +94,7 @@
     data = [{
       type: 'scatterpolar',
       r: chartdata,
-      theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'Region', 'School Sentiment'],
+      theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'Region', 'School Type', 'School Sentiment'],
       fill: 'toself'
       }]
 
