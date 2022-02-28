@@ -1,0 +1,84 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block styles %}
+{{ super() }}
+	<style>
+		body { background: #e8f1f9; }
+		ul { display: flex; }
+	</style>
+{% endblock %}
+
+
+{% block title %}
+Load Previous Answers
+{% endblock %}
+
+
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row pb-5">
+    <div class="col-lg-10 mx-lg-auto">
+
+      <h1 class="pt-5 pb-2">Load Previous Answers</h1>
+
+      <p class="lead alert alert-success">Enter previous answer ID</p>
+
+	  <!-- the form, thanks to WTForms -->
+	  {{ wtf.quick_form(form1) }}
+
+	  <br><p class="ml-4"><a href="{{ url_for('index') }}">Return to the main page.</a></p>
+
+	  <!-- start form - not using WTForms here -->
+	  <form method="POST" id="form2" action="{{ url_for('edit_result') }}">
+
+		<!-- table showing loaded record -->
+		<table class="table">
+			<tr>
+				<th>Grade</th>
+				<th>Grade Score</th>
+				<th>Region</th>
+				<th>Updated</th>
+			</tr>
+			
+			<!-- just one record here -->
+			<tr>
+				{% if questions %}
+					<td>{{ questions.ALLGRADEX }}</td>
+					<td>{% if questions.SEGRADES == 1%}
+						Mostly A's
+					{% endif %}
+					{% if questions.SEGRADES == 2%}
+						Mostly B's
+					{% endif %}
+					{% if questions.SEGRADES == 3%}
+						Mostly C's
+					{% endif %}
+					{% if questions.SEGRADES == 4%}
+						D's or Below
+					{% endif %}</td>
+					<td>{% if questions.CENREG == 1%}
+						Northeast
+					{% endif %}
+					{% if questions.CENREG == 2%}
+						South
+					{% endif %}
+					{% if questions.CENREG == 3%}
+						Midwest
+					{% endif %}
+					{% if questions.CENREG == 4%}
+						West
+					{% endif %}</td>
+					<td>{{ questions.updated }}</td>
+				{% endif %}
+			</tr>
+
+		</table>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "macros.html" import render_field %}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Student Success Analysis</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../css/editor.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+</head>
+
+
+{% block styles %}
+{{ super() }}
+	<style type="text/css">
+				
+		#form {
+		position: relative; /* labels need this on the their parent element */
+		}
+		
+		fieldset.group  {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		margin-bottom: 1.25em;
+		padding: .125em;
+		}
+		
+		fieldset.group legend {
+		margin: 0;
+		padding: 0;
+		font-weight: bold;
+		margin-left: 20px;
+		font-size: 24px; 
+		color: black;
+		}
+		
+		ul.field  {
+		margin: 0;
+		padding: 0;
+		margin-left: 20px;
+		list-style: none;
+		}
+		
+		ul.field li input {
+		margin-right: .25em;
+		}
+		
+		ul.field li {
+		border: 1px transparent solid;
+		display:inline-block;
+		width:12em;
+		}
+		
+		ul.field li label {
+		margin-left: ;
+		}
+		
+		.field {
+			-webkit-column-count: 1; /* Chrome, Safari, Opera */
+			-moz-column-count: 1; /* Firefox */
+			column-count: 1;
+		}
+		
+	</style>
+
+{% endblock %}
+
+
+{% block title %}
+Student Success Survey Questions
+{% endblock %}
+
+
+{% block content %}
+
+<body>
+
+    <div class="container" style="width: auto;">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="mailto:dreamteamanalytics@gmail.com">Contact</a>
+            </li>
+			{% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="logout">Logout</a>
+              </li>
+			  <li class="nav-item">
+				<a class="nav-link active btn-dark" href="add_resource">Add Resource<span class="sr-only">(current)</span></a>
+			  </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="login">Login</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+
+				{% if message %}
+
+					<div class="jumbotron" style="width: auto;">
+					<!-- the form was submitted and message exists -->
+					<p class="lead"><strong>{{ message }}</strong></p>
+					<br>
+					<!-- links -->
+					<div class="text-center">
+						<p><a class="btn btn-lg btn-dark" href="add_resource" role="button" style="float: none; text-align: center; position: relative; opacity: 1; " id="submit">Submit Another URL</a></p>
+					  </div>
+
+				{% else %}
+
+					<!-- the form is displayed when template opens via GET not POST -->
+
+					<div class="jumbotron" style="width: auto;">
+        				<h1 class="title" spellcheckker="false" style="text-align: center; font-weight: 700; font-family: Georgia, serif; width: 100%;">Student Success Survey<br></h1>
+						<hr style="text-decoration-line: none;">
+
+					<!-- show flash - based on WTForms validators
+				see https://pythonprogramming.net/flash-flask-tutorial/
+				get_flashed_messages() exists here because of flash()
+				in the route function
+				-->
+				{% with errors = get_flashed_messages() %}
+					{% if errors %}
+						{% for err in errors %}
+							<div class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+							{{ err }}
+							</div>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+				<!-- end of flash -->
+						
+					
+					{% macro render_form(form, action_url='', action_text='Submit', class_='', btn_class='btn btn-default') -%}
+						<legend>Submit Resource to Database</legend><br>
+						{% for f in form1 %}
+							{{ render_field(f) }}
+						{% endfor %}
+					{%- endmacro %}
+
+					<form method="POST" action="{{ action_url }}" role="form" class="{{ class_ }}">
+					<fieldset class="group">
+						<ul class="field">
+							{{ render_form(form) }}
+							{{ wtf.quick_form(form2, button_map={'submit': 'primary btn-dark'}) }}
+						</ul>
+					</fieldset>
+				{% endif %}
+			</div>
+			<footer class="footer">
+				<p>© Dream Team Analytics 2022<br></p>
+			</footer>
+		</div>
+	</div>
+{% endblock %}

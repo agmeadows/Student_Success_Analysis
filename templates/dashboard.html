@@ -1,0 +1,116 @@
+{% extends 'bootstrap/base.html' %}
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>Survey Results</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../../css/editor.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+  </head>
+  {% block content %}
+    <body style="background-color: rgb(213, 237, 240);">
+      <div class="container">
+        <div class="jumbotron text-center"
+        style="background-image: url('https://cdn.pixabay.com/photo/2015/10/18/19/04/graduation-995042__340.jpg');
+        background-position: center; background-size: cover;">
+          <h1 style="color:whitesmoke;">Survey Results</h1>
+        </div>
+        <div class="row">
+          <div class="col-lg-6"><h4><b>Radar Chart</b></h4>
+              <p>The chart displays your results compared to the optimal results.</p>
+              <div class="chart">
+                <div id="radar-chart"></div> 
+              </div>
+            </div>
+          <div class="col-lg-6 col-6">
+            {% if schoolsent_val < 1 %}
+              <h4><b>School Sentiment</b></h4>
+              <p>
+                Here are a list of resources to help improve school enjoyment
+                {% for row in schoolsent_resources %}
+                      <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+            {% if behavior_val < 1 %}
+              <h4><b>School Behavior</b></h4>
+              <p>
+                Here are a list of resources for improving school behavior
+                {% for row in behavior_resources %}
+                      <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+            {% if school_val < 1 %}
+              <h4><b>School Type</b></h4>
+              <p>
+                Here are is information on alternative school types
+                {% for row in school_resources %}
+                      <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+            {% if enrichment_val < 1 %}
+              <h4><b>Enrichment Activity</b></h4>
+              <p>
+                Here are a list of resources to help with enrichment activities
+                {% for row in enrichment_resources %}
+                      <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+            {% if tech_val < 1 %}
+              <h4><b>Technology</b></h4>
+              <p>
+                Here are a list of resources to help with Technology
+                {% for row in tech_resources %}
+                      <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
+                {% endfor %}
+              </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <footer class="footer">
+          <p>© Dream Team Analytics 2022</p>
+        </footer>
+
+      </div> <!-- /container -->
+    </body>
+
+  
+  <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+  <script>
+    var chartdata = {{ chartdata }}
+    
+    data = [{
+      type: 'scatterpolar',
+      r: chartdata,
+      theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'Region', 'School Type', 'School Sentiment'],
+      fill: 'toself'
+      }]
+
+      layout = {
+      polar: {
+        radialaxis: {
+          visible: true,
+          range: [0, 1]
+        }
+      },
+
+      showlegend: false
+
+      }
+
+      Plotly.newPlot("radar-chart", data, layout)
+  </script>
+{% endblock %}
+</html>

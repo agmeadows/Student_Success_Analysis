@@ -1,0 +1,71 @@
+{% extends 'bootstrap/base.html' %}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Student Success Analysis</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../css/editor.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+</head>
+
+{% block title %}
+Student Success Analysis
+{% endblock %}
+
+{% block content %}
+  <body>
+
+    <div class="container" style="width: auto;">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link active btn-dark" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="mailto:dreamteamanalytics@gmail.com">Contact</a>
+            </li>
+            {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="logout">Logout</a>
+              </li>
+			        <li class="nav-item">
+				        <a class="nav-link" href="add_resource">Add Resource</a>
+			        </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="login">Login</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+
+      <div class="jumbotron" style="width: auto;">
+        
+        <h1 class="title" spellcheckker="false" style="text-align: center; font-weight: 700; font-family: Georgia, serif; width: 100%;">Student Success Survey<br></h1><p class="lead"></p><hr style="text-decoration-line: none;"><div>Due to recent events, student success has never been more in the spotlight than now. With remote learning, class size restrictions and even economic burdens, parents and students alike need to find new ways to succeed.<br><br>The purpose of this page is to help parents to find resources that may help enhance their child's success. This is done through analyzing the answers to 20 submitted questions. These questions are derived from the  <a href="https://nces.ed.gov/nhes/" class="link-nhes">National Household Education Surveys Program</a>. Each of these questions, through the use of machine learning, have been proven to significantly impact student success. To answer the questions and receive custom recommendations, please click the button below:<br><br></div>
+        <div class="text-center">
+          <p><a class="btn btn-lg btn-dark" href="add_record" role="button" style="float: none; text-align: center; position: relative; opacity: 1; " id="submit">Submit Answers</a></p>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>© Dream Team Analytics 2022<br></p>
+      </footer>
+
+    </div> <!-- /container -->
+  
+
+</body>
+</html>
+
+{% endblock %}
