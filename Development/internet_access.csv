@@ -1,0 +1,6 @@
+INTACC,INTACC_DESC,CHLDNT,CHLDNT_DESC
+1,"Yes, at home and on a cell phone",1,Every day
+2,"Yes, at home only",2,A few times a week
+3,"Yes, on a cell phone only",3,A few times a month
+4,No,4,A few times a year
+,,5,Never
