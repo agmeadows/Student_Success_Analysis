@@ -144,6 +144,6 @@ We then loaded these features into the Features table of the database to use for
 The machine learning notebook can be found here: [student_success_ml](Optimize\Student_Success_ML.ipynb)
 
 ## Dashboard
-The dashboard is displayed upon completion of the student survey.  It is a Flask site using Bootstrap hosted by Heroku.  A radar chart is created based upon the user's responses to the survey questions to visualize the results.  Within the [app.py]() file, the chart data is retrieved for the display.  In addition, parental resources were added via a backend site and are also displayed by grouping on the dashboard.
+The dashboard is displayed upon completion of the student survey.  It is a Flask site using Bootstrap hosted by Heroku.  A radar chart is created based upon the user's responses to the survey questions to visualize the results.  Within the [app.py](app.py) file, the chart data is retrieved for the display.  In addition, parental resources were added via a backend site and are also displayed by grouping on the dashboard.
 
 ![dashboard](Images/dashboard.png)
