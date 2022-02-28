@@ -1,0 +1,22 @@
+id,value,feature,group
+1,0.03,SEENJOY_1,School Sentiment
+2,0.023,FORESPON_1,Enrichment Activity
+7,0.021,SEENJOY_3,School Sentiment
+8,0.021,FCTEACHR_1,School Sentiment
+10,0.02,FOGAMES_1,Enrichment Activity
+11,0.019,FOHISTX_1,Enrichment Activity
+17,0.018,FHHOME_4,School Behavior
+18,0.017,SEABSNT_1,School Sentiment
+19,0.017,SCHRTSCHL_1,School Type
+22,0.016,SEABSNT_4,School Behavior
+23,0.016,INTACC_4,Technology
+24,0.016,FHWKHRS_1,School Behavior
+30,0.013,FOSTORY2X_1,Enrichment Activity
+31,0.013,FOMUSEUMX_1,Enrichment Activity
+32,0.013,FCSTDS_4,School Sentiment
+35,0.011,SCHLMAGNET_1,School Type
+38,0.011,FOCONCRTX_1,Enrichment Activity
+39,0.011,FOBOOKSTX_1,Enrichment Activity
+40,0.011,FHWKHRS_3,School Behavior
+41,0.011,DISTASSI_1,School Type
+42,0.011,CHLDNT_3,Technology
