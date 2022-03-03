@@ -1,4 +1,4 @@
-import re
+from random import randrange
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 from flask_login import LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
@@ -556,7 +556,7 @@ def data():
     # drop uneeded columns
     national_df = pd.DataFrame(national)
     national_df = national_df.drop(['_sa_instance_state'], axis=1)
-    national_clean_df = national_df[col].sample(n=1000, random_state=72)
+    national_clean_df = national_df[col].sample(n=100, random_state=randrange(100))
 
     # drop uneeded columns and split the answers from the feature name
     features_df = pd.DataFrame(features)
