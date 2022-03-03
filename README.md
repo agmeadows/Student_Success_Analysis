@@ -149,6 +149,6 @@ The dashboard is displayed upon completion of the student survey.  It is a Flask
 ![dashboard](Images/dashboard.png)
 
 ## LinkedIn Contact
-Adam Meadows
-[Jennifer Robert](https://www.linkedin.com/in/jennifer-robert-544249a9/)
-Kyra Hull
+  - [Adam Meadows](https://www.linkedin.com/in/adam-meadows-bb24832a/S)
+  - [Jennifer Robert](https://www.linkedin.com/in/jennifer-robert-544249a9/)
+  - [Kyra Hull](http://www.linkedin.com/in/kyra-hull/S)
