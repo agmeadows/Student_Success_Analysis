@@ -90,13 +90,24 @@
   <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
   <script>
     var chartdata = {{ chartdata }}
+    var national_chartdata = {{ national_chartdata }}
     
-    data = [{
+    data = [
+      {
       type: 'scatterpolar',
       r: chartdata,
       theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'School Type', 'School Sentiment'],
-      fill: 'toself'
-      }]
+      fill: 'toself',
+      name: 'Your Survey'
+      },
+      {
+      type: 'scatterpolar',
+      r: national_chartdata,
+      theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'School Type', 'School Sentiment'],
+      fill: 'toself',
+      name: 'National Average'
+      }
+    ]
 
       layout = {
       polar: {
@@ -106,7 +117,7 @@
         }
       },
 
-      showlegend: false
+      showlegend: true
 
       }
 
@@ -114,3 +125,19 @@
   </script>
 {% endblock %}
 </html>
+
+    © 2022 GitHub, Inc.
+
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
+Loading complete
