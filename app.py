@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm, RecaptchaField, Recaptcha
 from flask_login import current_user, login_user
+from sqlalchemy import null
 from wtforms import SubmitField, SelectField, HiddenField, IntegerField, TextField, StringField, BooleanField, PasswordField
 from wtforms.validators import InputRequired, NumberRange, DataRequired, ValidationError, Email, EqualTo
 from datetime import datetime
@@ -64,6 +65,58 @@ class User(UserMixin, db.Model):
 # db.Model is required - don't change it
 # identify all columns by name and data type
 
+class Students(db.Model):
+    __tablename__ = 'NHES_19_PFI'
+    id = db.Column(db.Text, primary_key=True)
+    SEGRADES = db.Column(db.Integer)
+    CENREG = db.Column(db.Integer)
+    DISTASSI = db.Column(db.Integer)
+    SCHRTSCHL = db.Column(db.Integer)
+    SCHLMAGNET = db.Column(db.Integer)
+    SEENJOY = db.Column(db.Integer)
+    SEABSNT = db.Column(db.Integer)
+    FCTEACHR = db.Column(db.Integer)
+    FCSTDS = db.Column(db.Integer)
+    FHHOME = db.Column(db.Integer)
+    FHWKHRS = db.Column(db.Integer)
+    FOSTORY2X = db.Column(db.Integer)
+    FOGAMES = db.Column(db.Integer)
+    FORESPON = db.Column(db.Integer)
+    FOHISTX = db.Column(db.Integer)
+    FOLIBRAYX = db.Column(db.Integer)
+    FOBOOKSTX = db.Column(db.Integer)
+    FOCONCRTX = db.Column(db.Integer)
+    FOMUSEUMX = db.Column(db.Integer)
+    CHLDNT = db.Column(db.Integer)
+    INTACC = db.Column(db.Integer)
+
+    def __init__(self, id, SEGRADES, CENREG, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
+            FOSTORY2X, FORESPON, FOHISTX, FHHOME, FHWKHRS, SEABSNT, FCSTDS, FCTEACHR,
+            SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC
+            ):      
+        self.id = id
+        self.SEGRADES = SEGRADES
+        self.CENREG = CENREG
+        self.DISTASSI = DISTASSI
+        self.SCHRTSCHL = SCHRTSCHL
+        self.SCHLMAGNET = SCHLMAGNET
+        self.SEENJOY = SEENJOY
+        self.SEABSNT = SEABSNT
+        self.FCTEACHR = FCTEACHR
+        self.FCSTDS = FCSTDS
+        self.FHHOME = FHHOME
+        self.FHWKHRS = FHWKHRS
+        self.FOSTORY2X = FOSTORY2X
+        self.FOGAMES = FOGAMES
+        self.FORESPON = FORESPON
+        self.FOHISTX = FOHISTX
+        self.FOLIBRAYX = FOLIBRAYX
+        self.FOBOOKSTX = FOBOOKSTX
+        self.FOCONCRTX = FOCONCRTX
+        self.FOMUSEUMX = FOMUSEUMX
+        self.INTACC = INTACC
+        self.CHLDNT = CHLDNT
+
 class Questions(db.Model):
     __tablename__ = 'Surveys'
     id = db.Column(db.Text, primary_key=True)
@@ -90,11 +143,10 @@ class Questions(db.Model):
     FOMUSEUMX = db.Column(db.Integer)
     CHLDNT = db.Column(db.Integer)
     INTACC = db.Column(db.Integer)
-    LRNCELL = db.Column(db.Integer)
 
     def __init__(self, id, updated, ALLGRADEX, SEGRADES, CENREG, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX,
             FOSTORY2X, FORESPON, FOHISTX, FHHOME, FHWKHRS, SEABSNT, FCSTDS, FCTEACHR,
-            SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC, LRNCELL
+            SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC
             ):      
         self.id = id
         self.updated = updated
@@ -120,7 +172,6 @@ class Questions(db.Model):
         self.FOMUSEUMX = FOMUSEUMX
         self.INTACC = INTACC
         self.CHLDNT = CHLDNT
-        self.LRNCELL = LRNCELL
 
 class Features(db.Model):
     __tablename__ = 'Features'
@@ -225,9 +276,6 @@ class Enrichment(FlaskForm):
 class Technology(FlaskForm):
     INTACC = SelectField('Does your household have internet access?', coerce=int,
         choices=[(1,'Yes'), (2,'At home and on a cell phone'), (3, 'Yes, at home only'), (4, 'Yes, on cell phone only'), (5, 'No')
-        ])
-    LRNCELL = SelectField('Does your child use the internet for learning activities on a call phone?', coerce=int,
-        choices=[(1,'Yes'), (2,'No')
         ])
     CHLDNT = SelectField('How often does this child use the Internet at home often does this child use the internet at home for learning activities?', coerce=int,
         choices=[(1,'Every day'), (2,'A few times a week'), (3, 'A few times a month'), (4, 'A few times a year'), (5, 'Never')
@@ -341,15 +389,13 @@ def add_record():
         SCHRTSCHL = request.form['SCHRTSCHL']
         CHLDNT = request.form['CHLDNT']
         INTACC = request.form['INTACC']
-        LRNCELL = request.form['LRNCELL']
-
 
         # get today's date from function, above all the routes
         id = genID()
         updated = stringdate()
         # the data to be inserted into page
         record = Questions(id,updated, CENREG, ALLGRADEX, SEGRADES, FOBOOKSTX, FOCONCRTX, FOGAMES, FOLIBRAYX, FOMUSEUMX, FOSTORY2X, FORESPON, 
-                            FOHISTX, FHHOME, FHWKHRS, SEABSNT, FCSTDS, FCTEACHR, SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC, LRNCELL)
+                            FOHISTX, FHHOME, FHWKHRS, SEABSNT, FCSTDS, FCTEACHR, SEENJOY, DISTASSI, SCHLMAGNET, SCHRTSCHL, CHLDNT, INTACC)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
@@ -461,6 +507,24 @@ def data():
         normalized_df = df[df['group']==group]
         normalized_df[column] = normalized_df[column]/normalized_df[column].sum()
         return normalized_df
+
+    # function to filter data frame by features in important features table
+    def filterQ (data, normalized):
+        df = pd.DataFrame()
+        row = data.to_frame()
+        row.index = row.index.set_names('feature')
+        row = row.reset_index()
+        row.columns = ['feature', 'answer']
+        for index_x, x in row.iterrows():
+            for index_y, y in normalized.iterrows():
+                if (x['feature'] == y['feature']):
+                    #print("Found matches")
+                    if (int(x['answer']) == int(y['answer'])):
+                        #print(index_x, 'X:', x['feature'], x['answer'], index_y, 'Y:', y['feature'], y['answer'])
+                        df = df.append(y)
+        
+        return df
+
     
     # query DB and tables to get data
     questions_data = Questions.query.filter_by(id=id).all()
@@ -469,7 +533,10 @@ def data():
     features = [d.__dict__ for d in features_data]
     resources_data = Resources.query.all()
     resources = [d.__dict__ for d in resources_data]
+    national_data = Students.query.all()
+    national = [d.__dict__ for d in national_data]
 
+    
     # drop uneeded columns
     resources_df = pd.DataFrame(resources)
     resources_df = resources_df.drop(['_sa_instance_state'], axis=1)
@@ -477,10 +544,19 @@ def data():
     # drop uneeded columns and transpose the DF for comparison to the ideal features
     questions_df = pd.DataFrame(questions)
     questions_df = questions_df.drop(['_sa_instance_state', 'updated', 'id'], axis=1)
+    # save columns for filtering 
+    col = questions_df.columns.tolist()
+    col.remove('ALLGRADEX')
+
     questions_df = questions_df.transpose()
     questions_df.index = questions_df.index.set_names('feature')
     questions_df = questions_df.reset_index()
     questions_df.columns = ['feature', 'answer']
+
+    # drop uneeded columns
+    national_df = pd.DataFrame(national)
+    national_df = national_df.drop(['_sa_instance_state'], axis=1)
+    national_clean_df = national_df[col].sample(n=1000, random_state=72)
 
     # drop uneeded columns and split the answers from the feature name
     features_df = pd.DataFrame(features)
@@ -494,11 +570,10 @@ def data():
     technology_df = normVal(features_df, 'Technology', 'value')
     enrichment_df = normVal(features_df, 'Enrichment Activity', 'value')
     behavior_df = normVal(features_df, 'School Behavior', 'value')
-    region_df = normVal(features_df, 'Region', 'value')
     school_df = normVal(features_df, 'School Type', 'value')
     schoolsent_df = normVal(features_df, 'School Sentiment', 'value')
 
-    frames = [technology_df, enrichment_df, behavior_df, region_df, school_df, schoolsent_df]
+    frames = [technology_df, enrichment_df, behavior_df, school_df, schoolsent_df]
     normalized_df = pd.concat(frames)
 
     
@@ -513,55 +588,76 @@ def data():
                     newdf = newdf.append(y)
 
     newdf = newdf.drop(['id'], axis=1)
+
+    # iterate over each row and gather the group values then average them
+    national_values_df = pd.DataFrame()
+    for index, x in national_clean_df.iterrows():
+        national_clean_df = filterQ(x, normalized_df)
+
+        tech_val_national = sumVal(national_clean_df, 'Technology')
+        enrichment_val_national = sumVal(national_clean_df, 'Enrichment Activity')
+        behavior_val_national = sumVal(national_clean_df, 'School Behavior')
+        school_val_national = sumVal(national_clean_df, 'School Type')
+        schoolsent_val_national = sumVal(national_clean_df, 'School Sentiment')
+
+        national_values = [tech_val_national, enrichment_val_national, behavior_val_national, school_val_national, schoolsent_val_national]
+        temp_df = pd.DataFrame(national_values).transpose()
+
+        national_values_df = national_values_df.append(temp_df)
+
+    national_values_df.columns = ['tech', 'enrich', 'behav', 'school', 'sent']   
     
+    national_values_avg_df = national_values_df[['tech', 'enrich', 'behav', 'school', 'sent']].mean()
+    national_chartdata = national_values_avg_df.tolist()
+        
     # sum the values of the answers from the survey
     tech_val = sumVal(newdf, 'Technology')
     enrichment_val = sumVal(newdf, 'Enrichment Activity')
     behavior_val = sumVal(newdf, 'School Behavior')
-    region_val = sumVal(newdf, 'Region')
     school_val = sumVal(newdf, 'School Type')
     schoolsent_val = sumVal(newdf, 'School Sentiment')
     
     # store values to be sent to the dashboard
-    chartdata = [tech_val, enrichment_val, behavior_val, region_val, school_val, schoolsent_val]
+    chartdata = [tech_val, enrichment_val, behavior_val, school_val, schoolsent_val]
 
     if (tech_val < 1):
         tech_resources_df = resources_df[resources_df['GROUP'] == 'Technology']
         tech_resources_df = tech_resources_df.drop(columns={'id', 'GROUP'})
         tech_resources = tech_resources_df.values.tolist()
-        print(tech_resources)
     else:
-        tech_resources = pd.DataFrame()
+        tech_resources = null
 
     if (enrichment_val < 1):
         enrichment_resources_df = resources_df[resources_df['GROUP'] == 'Enrichment Activity']
         enrichment_resources_df = enrichment_resources_df.drop(columns={'id', 'GROUP'})
         enrichment_resources = enrichment_resources_df.values.tolist()
     else:
-        enrichment_resources = pd.DataFrame()
+        enrichment_resources = null
 
     if (behavior_val < 1):
         behavior_resources_df = resources_df[resources_df['GROUP'] == 'School Behavior']
         behavior_resources_df = behavior_resources_df.drop(columns={'id', 'GROUP'})
         behavior_resources = behavior_resources_df.values.tolist()
     else:
-        behavior_resources = pd.DataFrame()
+        behavior_resources = null
 
     if (school_val < 1):
         school_resources_df = resources_df[resources_df['GROUP'] == 'School Type']
         school_resources_df = school_resources_df.drop(columns={'id', 'GROUP'})
         school_resources = school_resources_df.values.tolist()
     else:
-        school_resources = pd.DataFrame()
+        school_resources = null
 
     if (schoolsent_val < 1):
         schoolsent_resources_df = resources_df[resources_df['GROUP'] == 'School Sentiment']
         schoolsent_resources_df = schoolsent_resources_df.drop(columns={'id', 'GROUP'})
         schoolsent_resources = schoolsent_resources_df.values.tolist()
     else:
-        schoolsent_resources = pd.DataFrame()
+        schoolsent_resources = null
 
-    return render_template('dashboard.html', chartdata=chartdata, tech_resources=tech_resources, 
+    print(newdf)
+
+    return render_template('dashboard.html', national_chartdata=national_chartdata, chartdata=chartdata, tech_resources=tech_resources, 
                             enrichment_resources=enrichment_resources, behavior_resources=behavior_resources,
                             school_resources=school_resources, schoolsent_resources=schoolsent_resources,
                             tech_val=tech_val, enrichment_val=enrichment_val, behavior_val=behavior_val,

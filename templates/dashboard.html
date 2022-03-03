@@ -25,7 +25,7 @@
         </div>
         <div class="row">
           <div class="col-lg-6"><h4><b>Radar Chart</b></h4>
-              <p>The chart displays your results compared to the optimal results.</p>
+              <p>The chart displays your results compared to a sample of 1000 students from across the country.</p>
               <div class="chart">
                 <div id="radar-chart"></div> 
               </div>
@@ -34,7 +34,12 @@
             {% if schoolsent_val < 1 %}
               <h4><b>School Sentiment</b></h4>
               <p>
-                Here are a list of resources to help improve school enjoyment
+                School sentiment comprises the student's enjoyment of school,
+                the parent/guardian level of satisfaction with the teacher 
+                and satisifcation with academic standards.  Listed below are 
+                resources and tools to help improve your student's level of 
+                success in these key areas.
+
                 {% for row in schoolsent_resources %}
                       <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
                 {% endfor %}
@@ -43,7 +48,11 @@
             {% if behavior_val < 1 %}
               <h4><b>School Behavior</b></h4>
               <p>
-                Here are a list of resources for improving school behavior
+                How a child interacts with school in terms of attendance and
+                homework plays a key role in their success.  How much and how 
+                often the student commits to their studies can influence 
+                future success.  
+
                 {% for row in behavior_resources %}
                       <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
                 {% endfor %}
@@ -52,7 +61,11 @@
             {% if school_val < 1 %}
               <h4><b>School Type</b></h4>
               <p>
-                Here are is information on alternative school types
+                There are various types of schools choices, even amongst the
+                public school system.  Charter schools, Magnet Schools, or 
+                attending the district assigned schools all scored in the top 20
+                features when predicting the level of student success.  Below 
+                you can find information about your potential choices.
                 {% for row in school_resources %}
                       <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
                 {% endfor %}
@@ -61,7 +74,13 @@
             {% if enrichment_val < 1 %}
               <h4><b>Enrichment Activity</b></h4>
               <p>
-                Here are a list of resources to help with enrichment activities
+                Education enrichment activities outside of the traditional 
+                classroom played a large part in the success prediction.
+                These regular discussions on time management, playing board games,
+                discussions on ethnicity and heritage, the telling of stories,
+                and visits to libraries, museums/galleries, live shows, and 
+                bookstores.  The resources below include locators and research
+                as to the importance of exposing your student to these factors.
                 {% for row in enrichment_resources %}
                       <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
                 {% endfor %}
@@ -70,7 +89,11 @@
             {% if tech_val < 1 %}
               <h4><b>Technology</b></h4>
               <p>
-                Here are a list of resources to help with Technology
+                Having household internet access, using a cell phone for learning 
+                activities, and the child's use of internet for learning at home 
+                are important factors in student success.  Below are resources to 
+                obtain internet, locate wifi, and suggested electronic learning
+                activities.  
                 {% for row in tech_resources %}
                       <li> <a href={{ row[1] }} target="_blank">{{ row[0] }}</a></li>
                 {% endfor %}
@@ -90,13 +113,24 @@
   <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
   <script>
     var chartdata = {{ chartdata }}
+    var national_chartdata = {{ national_chartdata }}
     
-    data = [{
+    data = [
+      {
       type: 'scatterpolar',
       r: chartdata,
-      theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'Region', 'School Type', 'School Sentiment'],
-      fill: 'toself'
-      }]
+      theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'School Type', 'School Sentiment'],
+      fill: 'toself',
+      name: 'Your Survey'
+      },
+      {
+      type: 'scatterpolar',
+      r: national_chartdata,
+      theta: ['Technology', 'Enrichment Activity', 'School Behavior', 'School Type', 'School Sentiment'],
+      fill: 'toself',
+      name: 'National Average'
+      }
+    ]
 
       layout = {
       polar: {
@@ -106,7 +140,7 @@
         }
       },
 
-      showlegend: false
+      showlegend: true
 
       }
 
@@ -114,3 +148,19 @@
   </script>
 {% endblock %}
 </html>
+
+    © 2022 GitHub, Inc.
+
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
+Loading complete
