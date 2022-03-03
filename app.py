@@ -494,11 +494,12 @@ def data():
     technology_df = normVal(features_df, 'Technology', 'value')
     enrichment_df = normVal(features_df, 'Enrichment Activity', 'value')
     behavior_df = normVal(features_df, 'School Behavior', 'value')
-    region_df = normVal(features_df, 'Region', 'value')
     school_df = normVal(features_df, 'School Type', 'value')
     schoolsent_df = normVal(features_df, 'School Sentiment', 'value')
 
-    frames = [technology_df, enrichment_df, behavior_df, region_df, school_df, schoolsent_df]
+    print(technology_df)
+
+    frames = [technology_df, enrichment_df, behavior_df, school_df, schoolsent_df]
     normalized_df = pd.concat(frames)
 
     
@@ -518,18 +519,17 @@ def data():
     tech_val = sumVal(newdf, 'Technology')
     enrichment_val = sumVal(newdf, 'Enrichment Activity')
     behavior_val = sumVal(newdf, 'School Behavior')
-    region_val = sumVal(newdf, 'Region')
     school_val = sumVal(newdf, 'School Type')
     schoolsent_val = sumVal(newdf, 'School Sentiment')
     
     # store values to be sent to the dashboard
-    chartdata = [tech_val, enrichment_val, behavior_val, region_val, school_val, schoolsent_val]
+    chartdata = [tech_val, enrichment_val, behavior_val, school_val, schoolsent_val]
 
     if (tech_val < 1):
         tech_resources_df = resources_df[resources_df['GROUP'] == 'Technology']
         tech_resources_df = tech_resources_df.drop(columns={'id', 'GROUP'})
         tech_resources = tech_resources_df.values.tolist()
-        print(tech_resources)
+        print(f"Tech = {tech_val}")
     else:
         tech_resources = pd.DataFrame()
 
