@@ -6,7 +6,7 @@ id,value,feature,group
 10,0.02,FOGAMES_1,Enrichment Activity
 11,0.019,FOHISTX_1,Enrichment Activity
 17,0.018,FHHOME_4,School Behavior
-18,0.017,SEABSNT_1,School Sentiment
+18,0.017,SEABSNT_1,School Behavior
 19,0.017,SCHRTSCHL_1,School Type
 22,0.016,SEABSNT_4,School Behavior
 23,0.016,INTACC_4,Technology
